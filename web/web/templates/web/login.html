@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>店舗ログイン</title>
+</head>
+
+<body>
+    <div align="center">
+        <h1>店舗ログイン</h1>
+        <table border="0">
+            <form method='post' action='{% url 'web:login' %}'>
+                {% csrf_token %}
+                <tr>
+                    <th>
+                        Login
+                    </th>
+                </tr>
+                <tr>
+                    <!-- <th id="user_id">
+                        <input type="text" name="user_id" placeholder="Store ID" size="24">
+                    </th>
+                    <td id="next">
+                        <input type="button" name="toggle" value="→" size="24" onclick="next()">
+                    </td>
+                    <th id="passward">
+                        <input type="text" name="passward" placeholder="passward" size="24">
+                    </th>
+                    <td id="login">
+                        <input type="submit" name="login" value="Login" size="24">
+                    </td> -->
+                    <th>
+                        <div id="user_id"><input type="text" name="user_id" placeholder="Store ID" size="24"></div>
+                        <div id="passward"><input type="text" name="passward" placeholder="passward" size="24"></div>
+                    </th>
+                    <td>
+                        <div hidden id="next"><input type="button" name="next" value="→" size="24" onclick="next()"></div>
+                        <div id="login"><input type="submit" name="login" value="従業員ログインへ" size="24"></div>
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+    <script>
+
+        // document.getElementById("passward").style.visibility = "hidden";
+        // document.getElementById("login").style.visibility = "hidden";
+
+        function next(){
+
+            document.getElementById("user_id").style.visibility = "hidden";
+            document.getElementById("next").style.visibility = "hidden";
+            document.getElementById("passward").style.visibility = "visible";
+            document.getElementById("login").style.visibility = "visible";
+
+        }
+
+        // $(function(){
+
+            // $('#click').click(function (){
+            //     $('#pass').hide();
+            //     $('#next').hide();
+            //     if(loginForm.user_id.value == 'test'){
+            //         window.location.href="list.html";
+            //     }
+            // });
+        // });
+
+    </script>
+</body>
+
+</html>

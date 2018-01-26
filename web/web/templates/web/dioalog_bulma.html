@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>bulma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- 記述場所⑤ -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+  </head>
+  <body>
+    <!-- 記述場所③ -->
+    <main class="columns">
+        
+        <div class="column" style="margin-top: 10px;">
+            <p><input type="button" value="削除" onClick="del()"></p>
+            <p><input type="button" value="ログアウト" onClick="logout()"></p>
+        </div>
+
+    </main>
+    <!-- 記述場所④ -->
+
+    
+    <script>
+
+        // import swal from 'sweetalert';
+
+        // swal("削除しますか？");
+        
+        function del(){
+            // 「OK」時の処理開始 ＋ 確認ダイアログの表示
+            if (window.confirm('本当に削除しますか？')) {
+
+                location.href = "home_bulma.html"; // home_bulma.htmlへジャンプ
+
+            }
+            // 「OK」時の処理終了
+
+            // 「キャンセル」時の処理開始
+            else {
+
+                window.alert('キャンセルされました'); // 警告ダイアログを表示
+
+            }
+            // 「キャンセル」時の処理終了
+        }
+
+        function logout() {
+            
+            // 「OK」時の処理開始 ＋ 確認ダイアログの表示
+            if (window.confirm('本当にログアウトしますか？')) {
+
+                location.href = "home_bulma.html"; // home_bulma.htmlへジャンプ
+
+            }
+            // 「OK」時の処理終了
+
+            // 「キャンセル」時の処理開始
+            else {
+
+                window.alert('キャンセルされました'); // 警告ダイアログを表示
+
+            }
+            // 「キャンセル」時の処理終了
+
+        }
+    </script>
+  </body>
+</html>

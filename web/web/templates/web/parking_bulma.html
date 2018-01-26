@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>違法駐車</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.css?v=201711101034"> -->
+    <!-- 記述場所⑤ -->
+
+    <style>
+        /* table{
+            border-collapse: collapse;
+            border-spacing: 5px;
+        }
+
+        td{
+            border: 1px gray solid;
+        } */
+
+        /*WATCH!Iのfont*/
+        /*「WATCH」「I」*/
+        .r{
+            font-size: xx-large;
+            color: hsl(348, 100%, 61%);
+            font-family: Impact,Charcoal;
+        }
+        /*「!」*/
+        .b{
+            font-size: xx-large;
+            color: black;
+            font-family: Impact,Charcoal;
+        }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+        <div class="navbar-start">
+            <span class="navbar-item">
+                <!-- <a class="fa fa-language" href="parking_bulma.html">違法駐車</a> -->
+                <a href="home_bulma.html">
+                    <p id="font"><span class="r">WATCH</span><span class="b">!</span><span class="r">I</span></p>
+                </a>
+            </span>
+        </div>
+        <div class="navbar-end">
+            <span class="navbar-item">
+                <a href="logout">ログアウト</a>
+            </span>
+        </div>
+        <!-- 記述場所③ -->
+    </header>
+    <!-- 記述場所③ -->
+    <main class="columns">
+
+        {% include 'web/sidemenu.html' %}
+
+        <div class="rows" style="margin-top: 20px;">
+            <div class="row">
+                <div class="columns">
+                    <div class="column">
+                        <!-- <a class="modal-button" data-target="modal-reg"><button class="button is-success">追加</button></a> -->
+                    </div>
+                    <div id="modal-reg" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title" align="center">違法駐車登録画面</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+
+                            <form method='post' action=''>
+                                {% csrf_token %}
+                                <input type="hidden" name="parking_add" value="parking_add">
+                                <section class="modal-card-body">
+                                    <div class="Color">
+                                        <label class="label">プレート色</label>
+                                        <label class="radio">
+                                            <input type="radio" name="white">
+                                            白
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="green">
+                                            緑
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="yellow">
+                                            黄
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="black">
+                                            黒
+                                        </label>
+                                    </div>
+                                    <div class="Location">
+                                        <label class="label">所在地</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="location">
+                                        </div>
+                                    </div>
+                                    <div class="Classnumber">
+                                        <label class="label">分類番号</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="classnumber">
+                                        </div>
+                                    </div>
+                                    <div class="Hiragana">
+                                        <label class="label">ひらがな</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="hiragana">
+                                        </div>
+                                    </div>
+                                    <div class="Number">
+                                        <label class="label">ナンバー</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="number">
+                                        </div>
+                                    </div>
+                                </section>
+                                <footer class="modal-card-foot">
+                                        <!-- <a class="modal-button" data-target="modal-reg2"><button class="button is-info">次へ</button></a> -->
+                                        <a class="modal-button"><button class="button is-info">登録</button></a>
+                                        <a class="modal-button"><button class="button is-danger" style="margin-left: 20px;">キャンセル</button></a>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- <div id="modal-reg2" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title" align="center">違法駐車登録画面</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <section class="modal-card-body level-item has-text-centered">
+                                <div>
+                                    <p style="height: 300px; width: 300px; padding-top: 40px;">
+                                        <img src="nonnon.jpg">
+                                    </p>
+                                </div>
+                            </section>
+                            <footer class="modal-card-foot">
+                                <a class="modal-button" data-target="modal-reg"><button class="button is-success">戻る</button></a>
+                                <a class="modal-button" data-target="modal-reg3"><button class="button is-info">次へ</button></a>
+                            </footer>
+                        </div>
+                    </div> -->
+
+                    <!-- <div id="modal-reg3" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title" align="center">違法駐車登録画面</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <section class="modal-card-body level-item has-text-centered">
+                                <div>
+                                    <p style="height: 300px; width: 300px; padding-top: 40px;">
+                                        <img src="neko.jpg">
+                                    </p>
+                                </div>
+                            </section>
+                            <footer class="modal-card-foot">
+                                <p>
+                                    これでよろしいですか？
+                                </p>
+
+                                <a class="modal-button" data-target="modal-reg2"><button class="button is-success">戻る</button></a>
+                                <button class="button is-info">登録</button>
+
+                            </footer>
+                        </div>
+                    </div> -->
+                    
+                    <div class="column">
+                        <div class="level-item">
+                            <div class="is-right">
+                                <a class="modal-button" data-target="modal-reg"><button class="button is-success">追加</button></a>
+                            </div>
+                        </div>
+                            
+                    </div>
+                    <div class="column">
+                        <div class="level-item">
+                            <div class="dropdown is-right">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                        <span>並べ替え</span>
+                                        <span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="#" class="dropdown-item">ナンバー</a>
+                                        <a href="#" class="dropdown-item">店舗</a>
+                                        <a href="#" class="dropdown-item">登録年月日</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table" align="center" style="width: 800px; height: 50px;" id="tbl1">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">プレート色</th>
+                            <th style="text-align: center;">所在地</th>
+                            <th style="text-align: center;">分類番号</th>
+                            <th style="text-align: center;">ひらがな</th>
+                            <th style="text-align: center;">ナンバー</th>
+                            <th style="text-align: center;">店名</th>
+                            <th style="text-align: center;">登録年月日</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in dataList %}
+                            <tr>
+                                <td style="text-align: center;"><a href="#">{{data.parking.colortype}}</a></td>
+                                <td style="text-align: center;"><a href="#">{{data.parking.shiyohonkyochi}}</a></td>
+                                <td style="text-align: center;"><a href="#">{{data.parking.bunruibango}}</a></td>
+                                <td style="text-align: center;"><a href="#">{{data.parking.jigyoyohanbetsumoji}}</a></td>
+                                <td style="text-align: center;"><a href="#">{{data.parking.ichirenshiteibango}}</a></td>
+                                <td style="text-align: center;"><a href="#">{{data.sname}}</a></td>
+                                <td style="text-align: center;"><a href="#">{{data.parking.datetime}}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- <div class="row">
+                <h1 class="title">
+                    <strong>2017年10月10日</strong>
+                    <hr>
+                </h1>
+            </div> -->
+            <!-- <div class="row">
+                <div class="columns">
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                                
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="columns">
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <h1 class="title">
+                    <strong>2017年10月10日</strong>
+                    <hr>
+                </h1>
+            </div>
+
+            <div class="row">
+                <div class="columns">
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                    <div class="column">
+
+                        <article class="box media" style="height: 190px; width: 240px;">
+                            <div class="content">
+                                <p style="height: 200px; width: 200px;">
+                                    <a class="modal-button" data-target="modal-bis">
+                                        <img src="nonnon.jpg">
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                        <div id="modal-bis" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="nonnon.jpg">
+                                </p>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div> -->
+
+        </div>
+    </main>
+    <!-- 記述場所④ -->
+    
+    <script src="https://bulma.io/vendor/clipboard-1.7.1.min.js"></script>
+    <script src="https://bulma.io/lib/main.js?v=201711101034"></script>
+
+    <script>
+        // $(function(){
+        //     tr_default("#tbl1");
+        //     $(".tbl").click(function(){
+        //         tr_default("#tbl1");
+        //         tr_click($(this));
+        //     });
+        // });
+
+        // function tr_default(tblID){
+        //     var vTR = tblID + " .tbl";
+        //     $(vTR).css("background-color","#ffffff");
+        //     $(vTR).mouseover(function(){
+        //         $(this).css("background-color","#CCFFCC") .css("cursor","pointer")
+        //     });
+        //     $(vTR).mouseout(function(){
+        //         $(this).css("background-color","#ffffff") .css("cursor","normal")
+        //     });
+        // }
+
+        // function tr_click(trID){
+        //     trID.css("background-color","hsl(348, 100%, 61%)");
+        //     trID.mouseover(function(){
+        //         $(this).css("background-color","hsl(348, 100%, 61%)") .css("cursor","pointer")
+        //     });
+        //     trID.mouseout(function(){
+        //         $(this).css("background-color","hsl(348, 100%, 61%)") .css("cursor","normal")
+        //     });
+        // }
+    </script>
+
+    <!-- <script async defer id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script>
+    <script async defer type="text/javascript" src="https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script> -->
+  </body>
+</html>

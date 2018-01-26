@@ -1,0 +1,45 @@
+version: '3'
+services:
+
+    db:
+      container_name: postgres
+      image: postgres
+      environment:
+        POSTGRES_DB: "sotsusei"
+        POSTGRES_PASSWORD: "password123"
+      ports:
+        - "5432:5432"
+        # (HOST:CONTAINER)
+      volumes:
+        - pgdata:/var/lib/postgresql/data/
+
+    nginx:
+        container_name: nginx-container        
+        build: ./nginx
+        restart: always
+        ports:
+        - "80:80" 
+        volumes:        
+        - api_data:/docker_api        
+        - ./log:/var/log/nginx              
+        depends_on:
+        - web
+        
+    web:
+        container_name: django-container
+        build: ./web        
+        restart: always
+        # command: uwsgi  --emperor uwsgi.ini 1
+        command: uwsgi --ini uwsgi.ini         
+        ports:
+        - "8001:8000"
+        volumes:
+        - api_data:/docker_api
+        - /home/kaeru/sotsusei :/root/sotsusei
+        depends_on:
+        - db
+
+volumes:
+    api_data:
+    pgdata:
+

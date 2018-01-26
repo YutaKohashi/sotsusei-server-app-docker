@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>従業員ログイン</title>
+</head>
+
+<body>
+    <div align="center">
+        <h1>従業員ログイン</h1>
+        <table border="0">
+            <!-- <form method='post' action='{% url 'web:login' %}'> -->
+            <form action="home_bulma.html" method="post">
+                <!-- {% csrf_token %} -->
+                <tr>
+                    <th>
+                        Employee Login
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div id="emp_id"><input type="text" name="emp_id" placeholder="Employee ID" size="24"></div>
+                        <div id="emp_pass"><input type="text" name="emp_pass" placeholder="Employee Passward" size="24"></div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <div hidden id="next"><input type="button" value="次へ" size="24"></div>
+                        <div id="Login"><input type="submit" value="Login" size="24"></div>
+                    </th>
+                </tr>
+            </form>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+
+        // $(function(){
+
+        //     $('#next').click(function(){
+        //         $('#pass').hide();
+        //     });
+
+        // });
+
+    </script>
+
+
+</body>
+
+</html>

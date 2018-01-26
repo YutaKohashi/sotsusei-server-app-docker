@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>bulma</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
+    <!-- 記述場所⑤ -->
+    <style>
+
+        .change{
+            height: 100px;
+            width: 150px;
+        }
+
+        /* クリック時の色変更 */
+        .is-active{
+            /* background-color:deepskyblue */
+            background-color:cadetblue;
+            color: white;
+        }
+
+        /*WATCH!Iのfont*/
+        /*「WATCH」「I」*/
+        .r{
+            font-size: xx-large;
+            color: hsl(348, 100%, 61%);
+            font-family: Impact,Charcoal;
+        }
+        /*「!」*/
+        .b{
+            font-size: xx-large;
+            color: black;
+            font-family: Impact,Charcoal;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-start">
+            <span class="navbar-item">
+                <!-- <a class="fa fa-language" href="blacklist_bulma.html">ブラックリスト</a> -->
+                <a href="home_bulma.html">
+                    <p id="font"><span class="r">WATCH</span><span class="b">!</span><span class="r">I</span></p>
+                </a>
+            </span>
+        </div>
+        <div class="navbar-end">
+            <span class="navbar-item">
+                <a href="logout">ログアウト</a>
+            </span>
+        </div>
+        <!-- 記述場所③ -->
+    </header>
+    <!-- 記述場所③ -->
+    <main class="columns">
+
+        {% include 'web/sidemenu.html' %}
+
+        <div class="rows" style="margin-top: 20px;">
+            <!--<div class="row">-->
+                <!--<div class="columns">-->
+                    <!--<div class="column level-right">-->
+                        <!--<div class="level-item">-->
+                            <!--<div class="dropdown is-right">-->
+                                <!--<div class="dropdown-trigger">-->
+                                    <!--<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">-->
+                                        <!--<span>表示方法</span>-->
+                                        <!--<span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span>-->
+                                    <!--</button>-->
+                                <!--</div>-->
+                                <!--<div class="dropdown-menu" id="dropdown-menu" role="menu">-->
+                                    <!--<div class="dropdown-content">-->
+                                        <!--<a href="#" class="dropdown-item">グリッド表示</a>-->
+                                        <!--<a href="#" class="dropdown-item">リスト表示</a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>  -->
+                    <!--</div>-->
+
+                <!--</div>-->
+                <!---->
+            <!--</div>-->
+
+            {% for data in dataList %}
+            <div class="row">
+                <h1 class="title">
+                    {{data.datetime}}
+                    <hr>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="columns">
+
+                    {% for path in data.img_path %}
+                    <div class="column">
+                        <article class="box media" style="height: 170px; width: 200px;">
+                            <div class="content">
+                            <!-- <p style="height: 210px; width: 140px;"> -->
+                                <a class="modal-button" data-target="modal-bis{{path}}">
+                                    <img src="{{path}}" style="height: 130px; width: 160px;">
+                                </a>
+                            <!-- </p> -->
+                            </div>
+                        </article>
+                        <div id="modal-bis{{path}}" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="{{path}}">
+                                </p>
+                                <footer class="modal-card-foot">
+                                    <!-- <button class="button is-success">掲示板アップロード</button> -->
+                                    <!-- <button class="button is-danger">ブラックリスト追加</button> -->
+                                    <a class="modal-button" data-target="modal-black{{path}}" style="margin-left: 60px;">
+                                        <!-- <div class="modal_img"> -->
+                                            <button class="button is-danger modal_img">ブラックリスト追加</button>
+                                        <!-- </div> -->
+                                    </a>                                            
+                                    <p style="margin-left: 10px;">
+                                        <strong>2017/10/10</strong>
+                                    </p>
+                                    <a class="modal-button" data-target="modal-neko7" style="margin-left: 10px;">
+                                        <button class="button is-info">Previous</button>
+                                    </a>
+                                    <p style="margin-left: 10px;">
+                                        <strong>1/8</strong>
+                                    </p>
+                                    <a class="modal-button" data-target="modal-neko" style="margin-left: 10px;">
+                                        <button class="button is-success">Next</button>
+                                    </a>
+                                </footer>
+                            </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
+
+                        <div id="modal-black{{path}}" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title" align="center">ブラックリスト登録画面</p>
+                                </header>
+                                <section class="modal-card-body">
+                                    <div class="columns">
+                                        <div class="column">
+                                            <p class="change">
+                                                <img src="nonnon222.jpg">
+                                            </p>
+                                        </div>
+                                        <div class="column">
+                                            <article class="box media" style="height: 230px; width: 350; overflow-y: scroll;">
+                                                <div class="media-content">
+                                                    {% for bl_img_path in data.bl_img_paths %}
+                                                    <div class="toggle">
+                                                        <article class="media" style="height: 100px;">
+                                                            <span style="height: 20px; width: 100px;">
+                                                                <a class="click" href="#">
+                                                                    <img src="{{bl_img_path}}" style="height: 75px; width: 70px;">
+                                                                </a>
+                                                            </span>
+                                                            <span style="margin-top: 10px;">
+                                                                ブラックリスト登録済み
+                                                            </span>
+                                                        </article>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>                                                                
+                                            </article>                                                    
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <textarea class="textarea"></textarea>
+                                </section>
+
+                                <form method='post' action=''>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="bl_path" class="bl_path" value="{{path}}">
+                                    <footer class="modal-card-foot">
+                                        <button class="button is-success">登録</button>
+                                        <button class="button">取消</button>
+                                    </footer>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+    <!-- まずはjQueryを読み込みます -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- ソート機能用のスクリプト読み込み -->
+    <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+    <script type="text/javascript">
+    $(function(){
+
+        $(".modal_img").on("click", function(){
+            //選択状態を解除する
+            $(".toggle").removeClass("is-active");
+
+            var mimg = $(this).parents(".modal-content").find("img").attr("src");
+            
+            $(".change").children("img").attr("src", mimg);
+        });
+
+        //選択状態の背景色を変更
+        $(".click").on("click", function(){
+            //選択状態を解除する
+            $(".toggle").removeClass("is-active");
+
+            $(this).parents(".toggle").toggleClass("is-active");
+
+            var img_change = $(this).children("img").attr("src");
+
+            // 登録ボタンのvalueを変更する
+            $(".bl_path").val(img_change);
+
+            $(".change").children("img").attr("src", img_change);
+        });
+
+        // $("#re").click(function(){
+        //     location.reload(true);
+        // });
+        // Instantiate MixItUp:
+
+        // if(flg == false){
+        //     document.getElementById('#dis').style.display = none;
+        // }
+        
+        // $('#alldis').click(function(){
+        //     document.getElementById('#dis').style.display = inline;
+        // });
+        // $('#Container').mixItUp();
+        
+    });
+    </script>
+    <!-- 記述場所④ -->
+
+    <script src="https://bulma.io/vendor/clipboard-1.7.1.min.js"></script>
+    <script src="https://bulma.io/lib/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>bulma</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- 記述場所⑤ -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style>
+        #box{
+            position: absolute;
+            bottom: 0;
+        }
+
+        /* 右下にボタンを固定 */
+        #clickme{
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            z-index: 9999;
+        }
+
+        /* 常に下に表示 */
+        #box{
+            position: fixed;
+            bottom: 0px;
+        }
+
+        .input-file .preview {
+            background-image: url(/hoge.jpg);
+        }
+        .input-file input[type="file"] {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-start">
+            <span class="navbar-item">
+                <a class="fa fa-language" href="board_bulma.html">掲示板</a>
+            </span>
+        </div>
+        <div class="navbar-end">
+            <span class="navbar-item">
+                <a class="fa fa-user" href="#">ログイン</a>
+            </span>
+        </div>
+        <!-- 記述場所③ -->
+    </header>
+    <!-- 記述場所③ -->
+    <main class="columns">
+        <div class="submenu column is-2" style="margin-top: 10px;">
+            <aside class="box menu">
+                <ul class="menu-list">
+                    <li>
+                        <a href="home_bulma.html">HOME</a>
+                    </li>
+                    <li>
+                        <a href="image_bulma.html">画像一覧</a>
+                    </li>
+                    <li>
+                        <a href="board_bulma.html" class="is-active">掲示板</a>
+                    </li>
+                    <li>
+                        <a href="parking_bulma.html">違法駐車</a>
+                    </li>
+                    <li>
+                        <a href="blacklist_bulma.html">ブラックリスト</a>
+                    </li>
+                    <li>
+                        <a href="configuration_bulma.html">設定</a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        
+
+        <div class="column" style="margin-top: 10px;">
+            
+            <!-- コメント -->
+            <table class="table" style="width: 1100px;">
+                <thead>
+                    <tr>
+                        <th class="column is-5">1.万引き</th>
+                        <th class="column is-5">投稿者: ○○店○○  2017/01/01 12:00　ID:xxxxxx</th>
+                        <th class="column is-1"><abbr title="title"><button class="button is-info">編集</button></abbr></th>
+                        <th class="column is-1"><abbr title="title"><button class="button is-danger">削除</button></abbr></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>2016年12月29日15:45頃。20代前半ぐらいの男性。黒のキャップに白Tシャツ、ジーンズ。身長175cm</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 画像、コメント -->
+            <table class="table" style="width: 1100px;">
+                <thead>
+                    <tr>
+                        <th class="column is-5">2.迷惑行為</th>
+                        <th class="column is-5">投稿者: ○○店○○  2017/01/01 12:10　ID:yyyyyy</th>
+                        <th class="column is-1"><button class="button is-info">編集</button></th>
+                        <th class="column is-1"><button class="button is-danger">削除</button></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td><img src="nonnon.jpg" style="width: 200px; height: 200px;"></td>
+                        <td>2016/12/30　深夜１時頃、コンビニ前で集団で騒音行為。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 画像 -->
+            <table class="table" style="width: 1100px;">
+                <thead>
+                    <tr>
+                        <th class="column is-5">3.万引き</th>
+                        <th class="column is-5">投稿者: ○○店○○  2017/01/01 12:20　ID:zzzzzz</th>
+                        <th class="column is-1"><abbr title="title"><button class="button is-info">編集</button></abbr></th>
+                        <th class="column is-1"><abbr title="title"><button class="button is-danger">削除</button></abbr></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td><img src="nonnon.jpg" style="width: 200px; height: 200px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <div class="input_file">
+                <div class="preview">
+                    <input accept="image/*" id="imgFile" type="file">
+                </div>
+            </div> -->
+        
+            <div id="box" class="box" style="width: 800px; right: 320px;" id="box">
+                <div class="columns">
+                    <div class="column">
+                        <div class="columns">
+
+                            <!-- <div class="column">
+                                <label class="label">カテゴリ：</label>
+                            </div> -->
+                            <div class="column is-6">
+                                <div class="field">
+                                    <label class="label">カテゴリ</label>
+                                    <div class="control">
+                                        <input class="input" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="column is-3" align="center" style="margin-top: 25px; padding-right: 0px; padding-left: 0px;">
+                                <a class="modal-button" data-target="modal-black">
+                                    <button class="button is-success">画像選択</button>
+                                </a>
+                                <div id="modal-black" class="modal">
+                                        <div class="modal-background"></div>
+                                        <div class="modal-card">
+                                            <section class="modal-card-body">
+                                                <div class="columns">
+            
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+            
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                    
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="columns">
+                                                
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                
+                                                    <div class="column">
+                                                        <article class="box media" style="height: 120px; width:120px;">
+                                                            <div class="media-content">
+                                                                <article class="media">
+                                                                    <img src="nonnon.jpg" id="img">
+                                                                </article>
+                                                            </div>
+                                                        </article>
+                                                    </div>
+                                                
+                                                </div>
+                                            </section>
+                                            <footer class="modal-card-foot">
+                                                <!-- <p>a</p> -->
+                                                <button class="button is-success" id="sclick" value="button">選択</button>
+                                                <!-- <img src="nonnon.jpg"> -->
+                                                <button class="button">取消</button>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                <!-- <div class="input_file">
+                                    <div class="preview">
+                                        <input accept="image/*" id="imgFile" type="file">
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="column is-3" align="center" style="margin-top: 25px; padding-right: 0px; padding-left: 0px;">
+                                <button class="button is-info">投稿ボタン</button>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">コメント</label>
+                            <div class="control">
+                                <textarea class="textarea"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <p class="img" style="height: 300px; width: 300px;">
+                            
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 表示切換え -->
+        <div>
+            <button id="clickme" class="button is-info">click</button>
+        </div>
+        
+    </main>
+    <!-- 記述場所④ -->
+    
+    <script>
+        $("#clickme").click(function () {
+            $("#box").slideToggle("slow", function () {
+                // Animation complete.
+            });
+        });
+
+        // 右下に固定
+        $(function () {
+            var box = $('#fixedbox');
+            var boxTop = box.offset().top;
+            $(window).scroll(function () {
+                if ($(window).scrollTop() >= boxTop - 30) {
+                    box.addClass('fixed');
+                } else {
+                    box.removeClass('fixed');
+                }
+            });
+        });
+
+        // $('#sclick').on('click', function () {
+        //     alert($(this).parent('footer').children('p').text());
+        // });
+
+        // $('#imgFile').change(
+        //     function () {
+        //         if (!this.files.length) {
+        //             return;
+        //         }
+
+        //         var file = $(this).prop('files')[0];
+        //         var fr = new FileReader();
+        //         $('.img').css('background-image', 'none');
+        //         fr.onload = function () {
+        //             $('.img').css('background-image', 'url(' + fr.result + ')');
+        //         }
+        //         fr.readAsDataURL(file);
+        //         $(".preview img").css('opacity', 0);
+        //     }
+        // );
+
+    </script>
+    <script src="https://bulma.io/vendor/clipboard-1.7.1.min.js"></script>
+    <script src="https://bulma.io/lib/main.js"></script>
+</body>
+
+</html>
