@@ -249,15 +249,14 @@ def home(request):
 #
 def image(request):
 
-    session_sid = '0000'
-    session_eid = '1111'
+    session_sid = request.session['sid']
+    session_eid = request.session['eid']
 
     imageid_dic = {}
 
     #
     # 画像一覧表示
     #
-    # session_sid = request.session['sid']
     humanTable = HumanTable.objects.all().values()
     org_image_datas = ImageTable.objects.filter(sid=session_sid, shutterflg=True, originalflg=True).order_by('-datetime').values() # 日付が新しい順にソートして取得
     not_org_image_datas = ImageTable.objects.filter(sid=session_sid, originalflg=False).order_by('-datetime').values()
