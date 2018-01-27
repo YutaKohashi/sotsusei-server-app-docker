@@ -40,6 +40,7 @@ class SessionManager:
         if eidflg:
             if status == SessionType.EID_ONlY:
                 # EIDだけあるので店舗ログインへ遷移
+                def_request.session.clear()
                 return HttpResponseRedirect('../web/login_sid')
 
             if status == SessionType.SID_ONLY:
@@ -49,7 +50,7 @@ class SessionManager:
         else:
             if status == SessionType.EID_AND_SID:
                 # どちらもあるのでそのまま処理
-                return None
+                return True
 
             if status == SessionType.EID_AND_SID_NONE or status == SessionType.EID_ONlY:
                 # どちらも無いので店舗ログインへ遷移
@@ -81,7 +82,9 @@ def login_home_sid(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
-    return session_status_result
+
+    if not session_status_result:
+        return session_status_result
 
     template = loader.get_template('web/store_login.html')
     context = {
@@ -94,7 +97,9 @@ def login_home_eid(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
-    return session_status_result
+
+    if not session_status_result:
+        return session_status_result
 
     template = loader.get_template('web/employee_login.html')
     context = {
@@ -108,7 +113,9 @@ def login_auth_store(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
-    return session_status_result
+
+    if not session_status_result:
+        return session_status_result
 
     # Login
     if 'sid' in request.POST and 'spass' in request.POST:
@@ -133,24 +140,31 @@ def login_auth_store(request):
     if 'sid' in request.session and 'spass' in request.session:
         name = request.session['sid']
 
-    return HttpResponseRedirect('../')
+        return HttpResponseRedirect('../')
 
+#
 # 新ログイン(従業員)　参考：http://webcache.googleusercontent.com/search?q=cache:I_r71dI_fxsJ:python.zombie-hunting-club.com/entry/2017/11/06/222409+&cd=1&hl=ja&ct=clnk&gl=jp
+#
 def login_auth_employee(request):
 
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
-    return session_status_result
+
+    if not session_status_result:
+        return session_status_result
+
+    session_sid = request.session['sid']
+    session_eid = request.session['eid']
 
     # 店舗ログイン済みの場合のみ、従業員ログインの処理を行う
     if 'sid' in request.session:
-        sessionSid = request.session['sid']
+        # sessionSid = request.session['sid']
         # POSTされた値に、eidとepassがあるかチェック
         if 'eid' in request.POST and 'epass' in request.POST:
             post_eid = request.POST['eid']
             try:
-                employeeTable = EmployeeTable.objects.get(sid=sessionSid, eid=post_eid)
+                employeeTable = EmployeeTable.objects.get(sid=session_sid, eid=post_eid)
                 # POSTされたeidがDBにあるかチェック
 
                 if employeeTable.password == request.POST['epass']:
@@ -172,12 +186,19 @@ def login_auth_employee(request):
             name = request.session['eid']
             loggedIn = True
 
-    return render(request, "web/logined-eid.html", {'loggedIn': loggedIn, 'name': name})
+    # return render(request, "web/logined-eid.html", {'loggedIn': loggedIn, 'name': name})
+    return HttpResponseRedirect('../', {'sid':session_sid, 'eid':session_eid})
 
 def logout(request):
     # セッション削除
     request.session.clear()
-    return HttpResponseRedirect('../login_sid/')
+
+    # 店舗ログインに遷移
+    template = loader.get_template('web/store_login.html')
+    context = {
+        'location_home': True,
+    }
+    return HttpResponse(template.render(context, request))
 
 #
 # ホーム（ログイン後のトップページ）
@@ -186,10 +207,13 @@ def home(request):
 
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
-    session_status_result = sessionManager.redirecter(session_status)
-    return session_status_result
+    session_status_result = sessionManager.redirecter(request, session_status)
 
-    session_sid = '0000'
+    if session_status_result != True:
+        return session_status_result
+
+    session_sid = request.session['sid']
+    session_eid = request.session['eid']
 
     # 新しい順に取得(最大30件)
     newstables = NewsTable.objects.filter(sid=session_sid).order_by('-datetime').values()[:30]
@@ -213,6 +237,8 @@ def home(request):
         'news_ary': news_ary,
         'news_ihouchusha_ary': news_ihouchusha_ary,
         'news_blacklist_ary': news_blacklist_ary,
+        'sid':session_sid,
+        'eid':session_eid,
     }
     return HttpResponse(template.render(context, request))
 
@@ -307,7 +333,7 @@ def image(request):
             gid = StoreTable.objects.filter(sid=session_sid).values().first()['gid_id']
             employee_name = EmployeeTable.objects.filter(sid=session_sid).values().first()['employeename']
             comment = NewsManager().def_msg_ihochusha(session_eid, employee_name)
-            NewsManager().register_event_blacklist(gid, session_eid, comment)
+            NewsManager().register_event_blacklist(gid, comment)
 
             # id = models.UUIDField(primary_key=True, default=uuid.uuid4)
             # gid = models.ForeignKey(GroupStoreTable, default=None, blank=True, null=True, on_delete=models.SET_NULL)

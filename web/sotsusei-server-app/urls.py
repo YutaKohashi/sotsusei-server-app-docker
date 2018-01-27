@@ -13,7 +13,7 @@ urlpatterns = [
     # url(r'^api/' + ApiVersion, include(api_router.urls)),
     url(r'^api/' + ApiVersion, include('api.urls')),
     url(r'^web/', include('web.urls')),
-    url(r'^',lambda request: redirect("/admin/")), # adminへのリダイレクト処理
+    # url(r'^',lambda request: redirect("/admin/")), # adminへのリダイレクト処理
 ]
 
 path = os.path.expanduser('~/sotsusei')
