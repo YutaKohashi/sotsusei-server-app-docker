@@ -181,6 +181,8 @@ def __upload_image(request):
                 human = HumanTable.objects.filter(humanid=human_id).first()
                 try:
                     humanName = human.name
+                    if humanName is None:
+                        humanName = " 未登録 "
                 except Exception as e:
                     humanName = " 未登録 "
 

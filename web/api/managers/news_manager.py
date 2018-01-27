@@ -33,13 +33,13 @@ class NewsManager:
 
     # ブラックリストに存在する
     def def_msg_balcklist(self, target_name):
-        return "ブラックリストのユーザ " + target_name + " がカメラ内に認識されました"
+        return "ブラックリストのユーザ " + str(target_name) + " がカメラ内に認識されました"
 
     def def_msg_shtter(self,emp_id, emp_name):
-        return "従業員ID:" + emp_id + " " + emp_name + "さんが写真を記録しました"
+        return "従業員ID:" + str(emp_id) + " " + str(emp_name) + "さんが写真を記録しました"
 
     def def_msg_ihochusha(self, emp_id, emp_name):
-        return "従業員ID:" + emp_id + " " + emp_name + "さんがナンバープレートを登録しました"
+        return "従業員ID:" + str(emp_id) + " " + str(emp_name) + "さんがナンバープレートを登録しました"
 
     '''
     private methods

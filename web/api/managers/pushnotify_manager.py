@@ -26,9 +26,9 @@ class PushManager:
 
     def __create_msg(self, storeId, humanName):
         return  {
-            'to': '/topics/' + storeId,
+            'to': '/topics/' + str(storeId),
             'data': {
                 'title':'ブラックリストに存在する人を検知しました!',
-                'message': '登録名 : ' + humanName
+                'message': '登録名 : ' + str(humanName)
             }
         }
