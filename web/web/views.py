@@ -83,7 +83,7 @@ def login_home_sid(request):
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
 
-    if not session_status_result:
+    if session_status_result != True:
         return session_status_result
 
     template = loader.get_template('web/store_login.html')
@@ -98,7 +98,7 @@ def login_home_eid(request):
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
 
-    if not session_status_result:
+    if session_status_result != True:
         return session_status_result
 
     template = loader.get_template('web/employee_login.html')
@@ -114,8 +114,8 @@ def login_auth_store(request):
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
 
-    if not session_status_result:
-        return session_status_result
+    # if session_status_result != True:
+    #     return session_status_result
 
     # Login
     if 'sid' in request.POST and 'spass' in request.POST:
@@ -137,10 +137,17 @@ def login_auth_store(request):
     if 'logout' in request.POST:
         request.session.clear()
 
+
+    if 'eid' not in request.session and 'sid' in request.session and 'spass' in request.session:
+        # 従業員ログインへ
+        return HttpResponseRedirect('../login_eid/')
+
     if 'sid' in request.session and 'spass' in request.session:
         name = request.session['sid']
-
         return HttpResponseRedirect('../')
+
+    # 上記if文のどれにも、当てはまらない場合、店舗ログインへ
+    return HttpResponseRedirect('../login_sid/')
 
 #
 # 新ログイン(従業員)　参考：http://webcache.googleusercontent.com/search?q=cache:I_r71dI_fxsJ:python.zombie-hunting-club.com/entry/2017/11/06/222409+&cd=1&hl=ja&ct=clnk&gl=jp
@@ -151,11 +158,11 @@ def login_auth_employee(request):
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
 
-    if not session_status_result:
-        return session_status_result
+    # if session_status_result != True:
+    #     return session_status_result
 
     session_sid = request.session['sid']
-    session_eid = request.session['eid']
+    session_eid = ''
 
     # 店舗ログイン済みの場合のみ、従業員ログインの処理を行う
     if 'sid' in request.session:
@@ -187,7 +194,7 @@ def login_auth_employee(request):
             loggedIn = True
 
     # return render(request, "web/logined-eid.html", {'loggedIn': loggedIn, 'name': name})
-    return HttpResponseRedirect('../', {'sid':session_sid, 'eid':session_eid})
+    return HttpResponseRedirect('../', {'sid':session_sid})
 
 def logout(request):
     # セッション削除
@@ -248,6 +255,12 @@ def home(request):
 # 画像一覧ページ
 #
 def image(request):
+    sessionManager = SessionManager()
+    session_status = sessionManager.loginCheck(request)
+    session_status_result = sessionManager.redirecter(request, session_status)
+
+    if session_status_result != True:
+        return session_status_result
 
     session_sid = request.session['sid']
     session_eid = request.session['eid']
@@ -453,7 +466,16 @@ def board(request):
 #
 def blacklist(request):
 
-    session_sid = '0000'
+    sessionManager = SessionManager()
+    session_status = sessionManager.loginCheck(request)
+    session_status_result = sessionManager.redirecter(request, session_status)
+
+    if session_status_result != True:
+        return session_status_result
+
+    session_sid = request.session['sid']
+    # session_eid = request.session['eid']
+
     imageData = ImageTable.objects.filter(sid=session_sid).values()
     blFlagImagePath = []
     imgName = []
@@ -498,11 +520,19 @@ def blacklist(request):
 #
 def parking(request):
 
-    session_sid = '0000'
-    session_eid = '1111'
-    imageData = CarTable.objects.filter(sid=session_sid).values()
+    sessionManager = SessionManager()
+    session_status = sessionManager.loginCheck(request)
+    session_status_result = sessionManager.redirecter(request, session_status)
 
-    # 迷惑駐車の情報登録
+    if session_status_result != True:
+        return session_status_result
+
+    session_sid = request.session['sid']
+    session_eid = request.session['eid']
+
+    # imageData = CarTable.objects.filter(sid=session_sid).values()
+
+    # 迷惑駐車の情報登録(WEB用)
     if 'parking_add' in request.POST:
 
         #
@@ -511,6 +541,7 @@ def parking(request):
 
         # プレートの色
         req_cartype = 0 #'white'
+
         if 'green' in request.POST:
             req_cartype = 5 #'green'
         if 'yellow' in request.POST:
@@ -574,20 +605,32 @@ def parking(request):
     for parkingdata in parkingData:
         colortype = parkingdata['colortype']
 
+        # 0:普通, 1:軽自動車, 3:事業用普通, 4:事業用系自動車, 5:外交官
         if colortype == 0:
-            editData[i]['colortype'] = '黒'
-        elif colortype == 1:
             editData[i]['colortype'] = '白'
+        elif colortype == 1:
+            editData[i]['colortype'] = '黄'
         elif colortype == 2:
-            editData[i]['colortype'] = 'グレー'
+            editData[i]['colortype'] = '緑'
         elif colortype == 3:
-            editData[i]['colortype'] = '青系'
+            editData[i]['colortype'] = '黒'
         elif colortype == 4:
-            editData[i]['colortype'] = '赤系'
-        elif colortype == 5:
-            editData[i]['colortype'] = '緑系'
-        elif colortype == 6:
-            editData[i]['colortype'] = '黄系'
+            editData[i]['colortype'] = '青' # 外交官
+
+        # if colortype == 0:
+        #     editData[i]['colortype'] = '黒'
+        # elif colortype == 1:
+        #     editData[i]['colortype'] = '白'
+        # elif colortype == 2:
+        #     editData[i]['colortype'] = 'グレー'
+        # elif colortype == 3:
+        #     editData[i]['colortype'] = '青系'
+        # elif colortype == 4:
+        #     editData[i]['colortype'] = '赤系'
+        # elif colortype == 5:
+        #     editData[i]['colortype'] = '緑系'
+        # elif colortype == 6:
+        #     editData[i]['colortype'] = '黄系'
 
         # 店名
         parking_sid = str(parkingdata['sid_id'])
@@ -649,7 +692,15 @@ def parking(request):
 #
 def setting(request):
 
-    sessionSid = '0000'
+    sessionManager = SessionManager()
+    session_status = sessionManager.loginCheck(request)
+    session_status_result = sessionManager.redirecter(request, session_status)
+
+    if session_status_result != True:
+        return session_status_result
+
+    session_sid = request.session['sid']
+    session_eid = request.session['eid']
 
     #
     # 従業員の追加
@@ -664,9 +715,21 @@ def setting(request):
         EmployeeTable(eid=req_eid,
                       employeename=req_ename,
                       password=req_passward,
-                      sid_id=sessionSid,
+                      sid_id=session_sid,
                       status=req_status,
                       plebel=0).save()
+
+
+    '''
+    WEB表示
+    '''
+    # storetables = StoreTable.
+    # 店舗情報
+
+
+    # アカウント情報
+
+    # 従業員一覧
 
     template = loader.get_template('web/configuration_bulma.html')
     context = {

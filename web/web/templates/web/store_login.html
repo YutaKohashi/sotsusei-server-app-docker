@@ -22,7 +22,7 @@
     <main class="columns">
         <div class="column">
             <div align="center">
-                <img src="https://lh5.googleusercontent.com/SURaoXcvUB97VZEwb2Tr57aluNZ_3XCpah-iPPu4v2-9E68iBvaAzF4PKOPjlySG6xqWuEjrsg1ZvXUOelXq=w3360-h1772">
+                <img src="https://i.imgur.com/ooD5hZk.png">
                 <h1 class="title is-2" style="margin-top: 10px;"><strong>店舗ログイン</strong></h1>
                 <form id="loginForm" action="{% url 'web:login_auth_store' %}" method="post" style="border-radius: 30px; border: 1px solid hsl(348, 100%, 61%); height: 240px; width: 480px;">
                 {% csrf_token %}
@@ -31,7 +31,7 @@
                             <div class="field">
                                 <div class="control">
                                     <input class="input" type="text" placeholder="Store ID" style="margin-top: 10px;" name="sid">
-                                    <input class="input" type="text" placeholder="Store Pass" style="margin-top: 15px;" name="spass">
+                                    <input class="input" type="password" placeholder="Store Pass" style="margin-top: 15px;" name="spass">
                                 </div>
                             </div>
                         </div>
