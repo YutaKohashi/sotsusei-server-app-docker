@@ -16,6 +16,7 @@
             <div align="center">
                 <img src="https://i.imgur.com/ooD5hZk.png">
                 <h1 class="title is-2" style="margin-top: 10px;"><strong>従業員ログイン</strong></h1>
+                {{ status }}
                 <form id="loginForm" action="{% url 'web:login_auth_employee' %}" method="post" style="border-radius: 30px; border: 1px solid hsl(348, 100%, 61%); height: 240px; width: 480px;">
                     {% csrf_token %}
                     <div class="level-center">

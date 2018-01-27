@@ -14,6 +14,15 @@ appName = 'web'
 
 imageid_dic2 = {}
 
+# 画像のURLを生成する
+def create_image_url(host_address, sid, humanid, file_name, orgflg=False):
+    print('http://' + host_address + settings.MEDIA_URL + sid + '/' + file_name)
+    if orgflg:
+        return 'http://' + host_address + settings.MEDIA_URL + sid + '/original/' + file_name
+    return 'http://' + host_address + settings.MEDIA_URL + sid + '/' + str(humanid) + '/' + file_name
+    #'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(image['path'])
+
+# セッションの状態
 class SessionType:
     EID_AND_SID =0
     EID_ONlY = 1
@@ -127,12 +136,20 @@ def login_auth_store(request):
                 request.session['sid'] = request.POST['sid']
                 request.session['spass'] = request.POST['spass']
                 print('Login Success')
+                return HttpResponseRedirect('../login_eid/')
             else:
                 print('Login Missed. PW')
 
         except StoreTable.DoesNotExist:
             print('Login Missed. sid')
-            return HttpResponse(status=400)
+            # ログイン情報が違う場合
+            template = loader.get_template('web/store_login.html')
+            context = {
+                'location_home': True,
+                'status':'店舗ログインに失敗しました。',
+            }
+            return HttpResponse(template.render(context, request), status=400)
+
 
     if 'logout' in request.POST:
         request.session.clear()
@@ -180,10 +197,24 @@ def login_auth_employee(request):
                     print('Login Success')
                 else:
                     print('Login Missed. PW')
+                    # ログイン情報が違う場合
+                    template = loader.get_template('web/employee_login.html')
+                    context = {
+                        'location_home': True,
+                        'status':'従業員ログインに失敗しました。',
+                    }
+                    return HttpResponse(template.render(context, request))
+
 
             except EmployeeTable.DoesNotExist:
                 print('Login Missed. eid')
-                return HttpResponse(status=400)
+                # ログイン情報が違う場合
+                template = loader.get_template('web/employee_login.html')
+                context = {
+                    'location_home': True,
+                    'status': '従業員ログインに失敗しました。',
+                }
+                return HttpResponse(template.render(context, request), status=400)
 
         if 'logout' in request.POST:
             #e eid kesu
@@ -194,7 +225,7 @@ def login_auth_employee(request):
             loggedIn = True
 
     # return render(request, "web/logined-eid.html", {'loggedIn': loggedIn, 'name': name})
-    return HttpResponseRedirect('../', {'sid':session_sid})
+    return HttpResponseRedirect('../')
 
 def logout(request):
     # セッション削除
@@ -232,11 +263,11 @@ def home(request):
         news_type = news['type']
         news_comment = news['comment']
         if NewsType.IHO_CHUSHA.value == news_type:
-            news_ary.append({'url':'ihou', 'comment':news_comment})
-            news_ihouchusha_ary.append({'url':'ihou', 'comment':news_comment})
+            news_ary.append({'url':'ihochusha', 'comment':news_comment})
+            news_ihouchusha_ary.append({'url':'ihochusha', 'comment':news_comment})
         if NewsType.BLACK_LIST.value == news_type:
-            news_ary.append({'url':'black', 'comment':news_comment})
-            news_blacklist_ary.append({'url':'ihou', 'comment':news_comment})
+            news_ary.append({'url':'blacklist', 'comment':news_comment})
+            news_blacklist_ary.append({'url':'blacklist', 'comment':news_comment})
 
     template = loader.get_template('web/home_bulma.html')
     context = {
@@ -283,7 +314,9 @@ def image(request):
     colIndex = 0
     for image in org_image_datas:
         date2 = "{0:%Y/%m/%d}".format(image['datetime'])
-        image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(image['path'])
+        humanid = image['humanid_id']
+        # image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(image['path'])
+        image_url = create_image_url(request.get_host(), session_sid, '', os.path.basename(image['path']), True)
         org_imageid = str(image['imageid'])
         child_imageid_list = not_org_image_datas.filter(originalimageid=org_imageid) # 同じ写真に写っている人
         child_imageid_ary = []
@@ -291,16 +324,20 @@ def image(request):
         # 写真に2人以上写っている場合は、その個別の画像のパスを配列にする
         if len(child_imageid_list) != 0:
             for child_imageid in child_imageid_list:
-                child_image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(child_imageid['path'])
+                child_humanid = child_imageid['humanid_id']
+                # child_image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(child_imageid['path'])
+                child_image_url = create_image_url(request.get_host(), session_sid, child_humanid, os.path.basename(child_imageid['path']))
                 child_imageid_ary.append(child_image_url)
                 print(child_image_url)
                 imageid_dic[child_image_url] = str(child_imageid['imageid'])
         else:
-            child_image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(image_url)
+            # 一人しか写っていない場合。
+            # child_image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(image_url)
+            child_image_url = create_image_url(request.get_host(), session_sid, humanid, os.path.basename(image_url), True)
             child_imageid_ary.append(child_image_url)
             # imageid_dic[child_image_url] = org_imageid['']
             # child_imageid_ary.append('https://github.com/identicons/97621d420f24ab078969e8b5675bf871.png')
-            print('写真には一人しか写っていない')
+            # print('写真には一人しか写っていない')
 
         if(date == '') :
             date = date2
@@ -317,10 +354,6 @@ def image(request):
 
     result.pop(0)
     imgs = result
-
-    #
-    # 画像一覧の複数人が写っている場合のリストを作る
-    #
 
 
     #
@@ -347,47 +380,6 @@ def image(request):
             comment = NewsManager().def_msg_ihochusha(session_eid, employee_name)
             NewsManager().register_event_blacklist(gid, comment)
 
-            # id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-            # gid = models.ForeignKey(GroupStoreTable, default=None, blank=True, null=True, on_delete=models.SET_NULL)
-            # sid = models.ForeignKey(StoreTable, default=None, blank=True, null=True, on_delete=models.SET_NULL)
-            # eid = models.ForeignKey(EmployeeTable, default=None, blank=True, null=True, on_delete=models.SET_NULL)
-            # type = models.IntegerField(default=0)  # 0 シャッター, 1違法駐車 ,2 ブラックリスト
-            # datetime = models.DateTimeField(auto_now_add=True)
-            # comment = models.CharField(max_length=255, default=None, blank=True, null=True)
-
-            # i = 0
-            # for imagedata in org_image_datas:
-            #
-            #     # 2週目は処理の必要がない（地球祭前なので適当に処置中）
-            #     if i == 1:
-            #         break
-            #
-            #     imageHumanId = imagedata['humanid_id']
-            #     if imageHumanId == None:
-            #         continue
-            #
-            #     try:
-            #         fullBlImagePathMatch = re.finditer('media\_(.*)', bl_path) # blImagePath は http://127..../media_[sid]~となってる
-            #         fullBlImagePath = ''
-            #         for match in fullBlImagePathMatch:
-            #             fullBlImagePath = str(match.groups()[0])
-            #
-            #         fullBlImagePath2 = os.path.expanduser('~\\sotsusei') + '\\' + fullBlImagePath.replace('/', '\\') #re.escape(fullBlImagePath)
-            #         imageRecord = org_image_datas.filter(path=fullBlImagePath2)
-            #         imageHumanId = str(imageRecord[0]['humanid_id'])
-            #         HumanFilterData = humanTable.filter(humanid=imageHumanId)
-            #         blFlag = HumanFilterData[0]['blflg']
-            #         if blFlag:
-            #             break # すでにTrueなので処理しない
-            #         else:
-            #             # ブラックリストFlagをTrueにする https://stackoverflow.com/questions/25906799/django-is-it-efficient-to-save-queryset-items-in-loop
-            #             HumanFilterData.update(blflg=True)
-            #             break # 1回の処理でいいのでfor抜ける
-            #
-            #     except:
-            #         i += 1
-            #         print('例外エラー: 画像のレコードにHumanIdが設定されていな可能性があります。')
-
 
     #
     # ブラックリストFlagのある画像だけ取り出す
@@ -405,7 +397,8 @@ def image(request):
             blFlag = HumanFilterData[0]['blflg']
 
             if blFlag:
-                blFlagImagePath.append('http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(imagedata['path']))
+                # blFlagImagePath.append('http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(imagedata['path']))
+                blFlagImagePath.append(create_image_url(request.get_host(), session_sid, imageHumanId, os.path.basename(imagedata['path'])))
         except:
             pass
 
@@ -492,9 +485,8 @@ def blacklist(request):
             blFlag = HumanFilterData[0]['blflg']
 
             if blFlag:
-                blFlagImagePath.append(
-                    'http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(
-                        imagedata['path']))
+                # blFlagImagePath.append('http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(imagedata['path']))
+                blFlagImagePath.append(create_image_url(request.get_host(), session_sid, imageHumanId, os.path.basename(imagedata['path'])))
                 imgName.append(os.path.basename(imagedata['path']).replace('.', '_'))
 
         except:
@@ -640,30 +632,31 @@ def parking(request):
         i += 1
 
     # CarTableからImageID取得
-    carData = CarTable.objects.all().values()
-
-    imageData = ImageTable.objects.all().values()
-
-    for cardata in carData:
-        # 追加済みかチェックしたほうがよさそう
-        car_imageid = cardata['imageid_id']
-        car_sid = cardata['sid_id']
-        imgPath = ''
-
-        # car_imageidから画像名取得する
-        if car_imageid != None:
-            imageFilterData = imageData.filter(sid=car_sid)
-            imgPath = imageFilterData[0]['path']
-
-        car_sid = cardata['sid_id']
-
-        if car_imageid != None:
-            numberPlateImages.append('http://' + request.get_host() + '/media_' + str(car_sid) + '/' + os.path.basename(imgPath))
-
-            # imgs.append( 'http://' + request.get_host() + '/media_' + image_sid + '/' + os.path.basename(imgPath) )
-            # imgName.append(os.path.basename(imgPath).replace('.', '_'))
-
-    print(str(numberPlateImages))
+    # carData = CarTable.objects.all().values()
+    #
+    # imageData = ImageTable.objects.all().values()
+    #
+    # for cardata in carData:
+    #     # 追加済みかチェックしたほうがよさそう
+    #     car_imageid = cardata['imageid_id']
+    #     car_sid = cardata['sid_id']
+    #     imgPath = ''
+    #
+    #     # car_imageidから画像名取得する
+    #     if car_imageid != None:
+    #         imageFilterData = imageData.filter(sid=car_sid)
+    #         imgPath = imageFilterData[0]['path']
+    #
+    #     car_sid = cardata['sid_id']
+    #
+    #     if car_imageid != None:
+    #         # numberPlateImages.append('http://' + request.get_host() + '/media_' + str(car_sid) + '/' + os.path.basename(imgPath))
+    #         numberPlateImages.append(create_image_url(request.get_host(), session_sid, os.path.basename(imgPath)))
+    #
+    #         # imgs.append( 'http://' + request.get_host() + '/media_' + image_sid + '/' + os.path.basename(imgPath) )
+    #         # imgName.append(os.path.basename(imgPath).replace('.', '_'))
+    #
+    # print(str(numberPlateImages))
 
     # car_imageid = str(carData['imageid_id'])
     # car_sid = str(carData['sid_id'])
@@ -723,17 +716,31 @@ def setting(request):
     '''
     WEB表示
     '''
-    # storetables = StoreTable.
+    setting_dic = {}
+    storetable = StoreTable.objects.filter(sid=session_sid).values().first()
     # 店舗情報
+    setting_dic['address'] = storetable['address']
+    setting_dic['store_pass'] = storetable['password']
 
-
-    # アカウント情報
+    # アカウント情報(ログイン中の従業員パス)
+    employeetable = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).values().first()
+    setting_dic['employee_pass'] = employeetable['password']
 
     # 従業員一覧
+    employee_list = []
+    employeetable = EmployeeTable.objects.filter(sid=session_sid).values()
+    for data in employeetable:
+        employee_list.append({'eid':data['eid'],
+                              'ename':data['employeename'],
+                              'epass':data['password'],
+                              'sid':data['sid_id'],
+                              'date':data['date']})
+    setting_dic['employee_list'] = employee_list
 
     template = loader.get_template('web/configuration_bulma.html')
     context = {
         'location_setting': True,
+        'setting_dic': setting_dic,
     }
     return HttpResponse(template.render(context, request))
 

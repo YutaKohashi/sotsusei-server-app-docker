@@ -8,20 +8,7 @@
 
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
 
-
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.css?v=201711101034"> -->
-    <!-- 記述場所⑤ -->
-
     <style>
-        /* table{
-            border-collapse: collapse;
-            border-spacing: 5px;
-        }
-
-        td{
-            border: 1px gray solid;
-        } */
 
         /*WATCH!Iのfont*/
         /*「WATCH」「I」*/
@@ -43,14 +30,14 @@
         <div class="navbar-start">
             <span class="navbar-item">
                 <!-- <a class="fa fa-language" href="parking_bulma.html">違法駐車</a> -->
-                <a href="home_bulma.html">
+                <a href="../">
                     <p id="font"><span class="r">WATCH</span><span class="b">!</span><span class="r">I</span></p>
                 </a>
             </span>
         </div>
         <div class="navbar-end">
             <span class="navbar-item">
-                <a href="logout">ログアウト</a>
+                <a href="../logout/">ログアウト</a>
             </span>
         </div>
         <!-- 記述場所③ -->
@@ -131,80 +118,12 @@
                         </div>
                     </div>
 
-                    <!-- <div id="modal-reg2" class="modal">
-                        <div class="modal-background"></div>
-                        <div class="modal-card">
-                            <header class="modal-card-head">
-                                <p class="modal-card-title" align="center">違法駐車登録画面</p>
-                                <button class="delete" aria-label="close"></button>
-                            </header>
-                            <section class="modal-card-body level-item has-text-centered">
-                                <div>
-                                    <p style="height: 300px; width: 300px; padding-top: 40px;">
-                                        <img src="nonnon.jpg">
-                                    </p>
-                                </div>
-                            </section>
-                            <footer class="modal-card-foot">
-                                <a class="modal-button" data-target="modal-reg"><button class="button is-success">戻る</button></a>
-                                <a class="modal-button" data-target="modal-reg3"><button class="button is-info">次へ</button></a>
-                            </footer>
-                        </div>
-                    </div> -->
-
-                    <!-- <div id="modal-reg3" class="modal">
-                        <div class="modal-background"></div>
-                        <div class="modal-card">
-                            <header class="modal-card-head">
-                                <p class="modal-card-title" align="center">違法駐車登録画面</p>
-                                <button class="delete" aria-label="close"></button>
-                            </header>
-                            <section class="modal-card-body level-item has-text-centered">
-                                <div>
-                                    <p style="height: 300px; width: 300px; padding-top: 40px;">
-                                        <img src="neko.jpg">
-                                    </p>
-                                </div>
-                            </section>
-                            <footer class="modal-card-foot">
-                                <p>
-                                    これでよろしいですか？
-                                </p>
-
-                                <a class="modal-button" data-target="modal-reg2"><button class="button is-success">戻る</button></a>
-                                <button class="button is-info">登録</button>
-
-                            </footer>
-                        </div>
-                    </div> -->
-                    
-                    <div class="column">
-                        <div class="level-item">
+                    <div class="level-item" style="margin-right: 10px;">
                             <div class="is-right">
                                 <a class="modal-button" data-target="modal-reg"><button class="button is-success">追加</button></a>
                             </div>
-                        </div>
-                            
                     </div>
-                    <div class="column">
-                        <div class="level-item">
-                            <div class="dropdown is-right">
-                                <div class="dropdown-trigger">
-                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                                        <span>並べ替え</span>
-                                        <span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-                                    </button>
-                                </div>
-                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
-                                        <a href="#" class="dropdown-item">ナンバー</a>
-                                        <a href="#" class="dropdown-item">店舗</a>
-                                        <a href="#" class="dropdown-item">登録年月日</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -224,255 +143,18 @@
                     <tbody>
                         {% for data in dataList %}
                             <tr>
-                                <td style="text-align: center;"><a href="#">{{data.parking.colortype}}</a></td>
-                                <td style="text-align: center;"><a href="#">{{data.parking.shiyohonkyochi}}</a></td>
-                                <td style="text-align: center;"><a href="#">{{data.parking.bunruibango}}</a></td>
-                                <td style="text-align: center;"><a href="#">{{data.parking.jigyoyohanbetsumoji}}</a></td>
-                                <td style="text-align: center;"><a href="#">{{data.parking.ichirenshiteibango}}</a></td>
-                                <td style="text-align: center;"><a href="#">{{data.sname}}</a></td>
-                                <td style="text-align: center;"><a href="#">{{data.parking.datetime}}</a></td>
+                                <td style="text-align: center;">{{data.parking.colortype}}</td>
+                                <td style="text-align: center;">{{data.parking.shiyohonkyochi}}</td>
+                                <td style="text-align: center;">{{data.parking.bunruibango}}</td>
+                                <td style="text-align: center;">{{data.parking.jigyoyohanbetsumoji}}</td>
+                                <td style="text-align: center;">{{data.parking.ichirenshiteibango}}</td>
+                                <td style="text-align: center;">{{data.sname}}</td>
+                                <td style="text-align: center;">{{data.parking.datetime}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-
-            <!-- <div class="row">
-                <h1 class="title">
-                    <strong>2017年10月10日</strong>
-                    <hr>
-                </h1>
-            </div> -->
-            <!-- <div class="row">
-                <div class="columns">
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                                
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="columns">
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="row">
-                <h1 class="title">
-                    <strong>2017年10月10日</strong>
-                    <hr>
-                </h1>
-            </div>
-
-            <div class="row">
-                <div class="columns">
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                </div>
-            </div> -->
 
         </div>
     </main>

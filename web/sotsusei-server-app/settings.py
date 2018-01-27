@@ -81,8 +81,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'sotsusei',
         'USER': 'postgres',
-        'PASSWORD': 'password123',
-        'HOST': 'db',
+        'PASSWORD': 'ecc00000',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -131,6 +131,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# sotsuseiディレクトリ以下にあるファイルなどを公開する。
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.expanduser('~/sotsusei') + '/'
 
 # ログイン関連
 LOGIN_URL = 'web:login'  # ログイン画面の設定
