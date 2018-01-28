@@ -66,7 +66,7 @@ def camera_shutter(request):
         store_id = request.POST['sid']
         emp_id = request.POST['eid']
         try:
-            image_row = ImageTable.objects.filter(sid=store_id, originalflg=True).first()
+            image_row = ImageTable.objects.filter(sid=store_id, originalflg=True).order_by('datetime').reverse().first()
             image_row.shutterflg = True
             image_row.save()
 
