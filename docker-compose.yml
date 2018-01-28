@@ -20,7 +20,7 @@ services:
         ports:
         - "80:80" 
         volumes:        
-        - api_data:/docker_api        
+        - ./web:/docker_api
         - ./log:/var/log/nginx              
         depends_on:
         - web
@@ -34,12 +34,12 @@ services:
         ports:
         - "8001:8000"
         volumes:
-        - api_data:/docker_api
+        - ./web:/docker_api
         - /home/kaeru/sotsusei :/root/sotsusei
         depends_on:
         - db
 
 volumes:
-    api_data:
+#    api_data:
     pgdata:
 
