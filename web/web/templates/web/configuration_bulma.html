@@ -43,14 +43,14 @@
         <div class="navbar-start">
             <span class="navbar-item">
                 <!-- <a class="fa fa-language" href="configuration_bulma.html">設定</a> -->
-                <a href="home_bulma.html">
+                <a href="../">
                     <p id="font"><span class="r">WATCH</span><span class="b">!</span><span class="r">I</span></p>
                 </a>
             </span>
         </div>
         <div class="navbar-end">
             <span class="navbar-item">
-                <a href="logout">ログアウト</a>
+                <a href="../logout/">ログアウト</a>
             </span>
         </div>
         <!-- 記述場所③ -->
@@ -77,15 +77,11 @@
                                     <tbody>
                                         <tr>
                                             <th style="text-align: center;">住所</th>
-                                            <td style="text-align: center;">大阪府大阪市 北区中崎西1丁目2−3</td>
-                                        </tr>
-                                        <tr>
-                                            <th style="text-align: center;">郵便番号</th>
-                                            <td style="text-align: center;">530-0015</td>
+                                            <td style="text-align: center;">{{ setting_dic.address }}</td>
                                         </tr>
                                         <tr>
                                             <th style="text-align: center;">パスワード</th>
-                                            <td style="text-align: center;">123456789</td>
+                                            <td style="text-align: center;">{{ setting_dic.store_pass }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -99,7 +95,7 @@
                                     <tbody>
                                         <tr>
                                             <th style="text-align: center;">パスワード</th>
-                                            <td style="text-align: center;">123456789</td>
+                                            <td style="text-align: center;">{{ setting_dic.employee_pass }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -163,25 +159,17 @@
                                             <!-- <th></th> -->
                                         </tr>
                                         <!-- <tr class="tbl"> -->
+                                        {% for empdata in setting_dic.employee_list %}
                                         <tr>
-                                            <td style="text-align: center;">abcdefh</td>
-                                            <td style="text-align: center;">綾野 剛</td>
-                                            <td style="text-align: center;">123456</td>
-                                            <td style="text-align: center;">ccciiic</td>
-                                            <td style="text-align: center;">ステータス</td>
-                                            <td style="text-align: center;">2017/12/15</td>
+                                            <td style="text-align: center;">{{ empdata.eid }}</td>
+                                            <td style="text-align: center;">{{ empdata.ename }}</td>
+                                            <td style="text-align: center;">{{ empdata.epass }}</td>
+                                            <td style="text-align: center;">{{ empdata.sid }}</td>
+                                            <td style="text-align: center;">有効</td>
+                                            <td style="text-align: center;">{{ empdata.date }}</td>
                                             <!-- <td><button class="button is-danger" onclick="delLine(this)">削除</button></td> -->
                                         </tr>
-                                        <!-- <tr class="tbl"> -->
-                                        <tr>
-                                            <td style="text-align: center;">abcdefg</td>
-                                            <td style="text-align: center;">佐藤 隆太</td>
-                                            <td style="text-align: center;">345678</td>
-                                            <td style="text-align: center;">aaaccca</td>
-                                            <td style="text-align: center;">ステータス</td>
-                                            <td style="text-align: center;">2018/01/12</td>
-                                            <!-- <td><button class="button is-danger" onclick="delLine(this)">削除</button></td> -->
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

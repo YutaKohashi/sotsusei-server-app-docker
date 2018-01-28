@@ -14,13 +14,14 @@ urlpatterns = [
     url(r'^api/' + ApiVersion, include('api.urls')),
     url(r'^web/', include('web.urls')),
     # url(r'^',lambda request: redirect("/admin/")), # adminへのリダイレクト処理
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-path = os.path.expanduser('~/sotsusei')
-for dir in os.listdir(path):
-    subdir = dir
-    print('subdir-----------' + os.path.expanduser('~/sotsusei') + '/' + subdir)
-    urlpatterns += static('/media_' + subdir + '/', document_root=os.path.expanduser('~/sotsusei') + '/' + subdir)  # /media/～のアップロード画像を見れるようにする
+path = os.path.expanduser('~/sotsusei') + '/'
+
+# for dir in os.listdir(path):
+#     subdir = dir
+#     # print('subdir-----------' + os.path.expanduser('~/sotsusei') + '/' + subdir)
+#     urlpatterns += static('/media_' + subdir + '/', document_root=os.path.expanduser('~/sotsusei') + '/' + subdir)  # /media/～のアップロード画像を見れるようにする
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # /media/～のアップロード画像を見れるようにする
 # urlpatterns += static(settings.MEDIA_URL, document_root=os.path.expanduser('~/sotsusei') + '/' + subdir) # /media/～のアップロード画像を見れるようにする
