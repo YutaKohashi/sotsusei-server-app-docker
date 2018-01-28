@@ -132,6 +132,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# sotsuseiディレクトリ以下にあるファイルなどを公開する。
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.expanduser('~/sotsusei') + '/'
+
 # ログイン関連
 LOGIN_URL = 'web:login'  # ログイン画面の設定
 LOGIN_REDIRECT_URL = 'web:redirect'  # リダイレクト先の設定（ログイン失敗時）
