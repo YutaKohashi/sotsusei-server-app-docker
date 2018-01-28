@@ -46,63 +46,61 @@
         </div>
         <!-- 記述場所③ -->
     </header>
+
     <!-- 記述場所③ -->
     <main class="columns">
 
         {% include 'web/sidemenu.html' %}
 
         <div class="rows" style="margin-top: 20px;">
-                <div class="row">
-                        <div class="columns">
-                            <div class="column is-7">
-                                <!-- <a class="modal-button" data-target="modal-reg"><button class="button is-success">追加</button></a> -->
-                                <button class="button is-success">追加</button>
-                            </div>
-                        </div>
-                    </div>
+{#                <div class="row">#}
+{#                        <div class="columns">#}
+{#                            <div class="column is-7">#}
+{#                                <!-- <a class="modal-button" data-target="modal-reg"><button class="button is-success">追加</button></a> -->#}
+{#                                <button class="button is-success">追加</button>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
 
             <div class="row">
                 <div class="columns">
+
 
                     {% for data in dataList %}
                     <div class="column">
                         <article class="box media" style="height: 190px; width: 240px;">
                             <div class="content">
                                 <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-reg-{{data.imgName}}">
-                                        <img src="{{data.blFlagImagePath}}">
+                                    <a class="modal-button" data-target="modal-reg-{{data.filename}}">
+                                        <img src="{{data.first}}">
                                     </a>
                                 </p>
                             </div>
                         </article>
-                        <div id="modal-reg-{{data.imgName}}" class="modal">
+                        <div id="modal-reg-{{data.filename}}" class="modal">
                                 <div class="modal-background"></div>
                                 <div class="modal-card">
                                     <section class="modal-card-body" style="height: 500px;">
                                         <div class="columns">
 
+                                            {% for onazi in data.all %}
                                             <div class="column is-4">
                                                 <p style="height: 100px; width: 190px;">
-                                                    <img src="{{data.blFlagImagePath}}">
+                                                    <img src="{{onazi}}">
                                                 </p>
                                             </div>
-
-                                            <!--<div class="column is-4">-->
-                                                <!--<p style="height: 100px; width: 190px;">-->
-                                                    <!--<img src="nonnon.jpg">-->
-                                                <!--</p>-->
-                                            <!--</div>-->
+                                            {% endfor %}
 
                                         </div>
-                                        <!-- <div class="columns">
-                                            <button class="button is-info">取り消し</button>
-                                            <button class="button is-info">閉じる</button>
-                                        </div> -->
                                     </section>
-                                    <footer class="modal-card-foot">
-                                        <button class="button is-danger">解除</button>
-                                        <button class="button is-info">閉じる</button>
-                                    </footer>
+                                    <form method='post' action=''>
+                                        {% csrf_token %}
+                                        <footer class="modal-card-foot">
+                                            <input type="hidden" name="blacklist_humanid" value="{{ data.humanid }}">
+                                            <button class="button is-danger">解除</button>
+                                            <button class="button is-info">閉じる</button>
+                                        </footer>
+                                    </form>
                                 </div>
                             </div>
 
@@ -110,76 +108,6 @@
                     {% endfor %}
                 </div>
             </div>
-
-            <!-- <div class="row">
-                <div class="columns">
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                    <div class="column">
-
-                        <article class="box media" style="height: 190px; width: 240px;">
-                            <div class="content">
-                                <p style="height: 200px; width: 200px;">
-                                    <a class="modal-button" data-target="modal-bis">
-                                        <img src="nonnon.jpg">
-                                    </a>
-                                </p>
-                            </div>
-                        </article>
-                        <div id="modal-bis" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <p class="image is-4by3">
-                                    <img src="nonnon.jpg">
-                                </p>
-                            </div>
-                            <button class="modal-close is-large"></button>
-                        </div>
-                    </div>
-
-                </div>
-            </div> -->
 
         </div>
 

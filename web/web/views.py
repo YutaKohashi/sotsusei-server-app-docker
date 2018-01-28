@@ -469,41 +469,90 @@ def blacklist(request):
     session_sid = request.session['sid']
     # session_eid = request.session['eid']
 
-    imageData = ImageTable.objects.filter(sid=session_sid).values()
-    blFlagImagePath = []
-    imgName = []
-    humanTable = HumanTable.objects.filter(blflg=True).values()
+    '''
+    ブラックリストの解除
+    '''
+    if 'blacklist_humanid' in request.POST:
+        req_humanid = request.POST['blacklist_humanid']
+        human_table = HumanTable.objects.filter(sid=session_sid, blflg=True, humanid=req_humanid).values()
+        human_table.update(blflg=False) # フラグをFalseにして更新
 
-    for imagedata in imageData:
-        imageHumanId = imagedata['humanid_id']
-        if imageHumanId == None:
-            continue
+    # ブラックリストに登録されているhumanidを取り出す
+    human_tables = HumanTable.objects.filter(blflg=True).values()
+    image_tables = ImageTable.objects.filter(sid=session_sid).values()
+    blacklist_image_list = [[]]
+    count = []
 
-        try:
+    # for data in human_tables:
+    #     humanid = str(data['humanid'])
+    #     imagetable_filter_human = image_tables.filter(humanid=humanid).values()
+    #     blacklist_human_imagepath = []
+    #     for blacklist_human_image in imagetable_filter_human:
+    #         blacklist_human_imagepath.append( create_image_url(request.get_host(), session_sid, humanid, os.path.basename(blacklist_human_image['path'])))
+    #     blacklist_image_list.append([{'filename':os.path.basename(imagetable_filter_human[0]['path']).replace('.', '')}, {'first':create_image_url(request.get_host(), session_sid, humanid, os.path.basename(imagetable_filter_human[0]['path']))}, {'zenbu':blacklist_human_imagepath} ])
+    #
+    # blacklist_image_list.pop(0)
+    # print(blacklist_image_list)
 
-            HumanFilterData = humanTable.filter(humanid=imageHumanId)
-            blFlag = HumanFilterData[0]['blflg']
+    for data in human_tables:
+        humanid = str(data['humanid'])
+        imagetable_filter_human = image_tables.filter(humanid=humanid).values()
+        blacklist_human_imagepath = []
 
-            if blFlag:
-                # blFlagImagePath.append('http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(imagedata['path']))
-                blFlagImagePath.append(create_image_url(request.get_host(), session_sid, imageHumanId, os.path.basename(imagedata['path'])))
-                imgName.append(os.path.basename(imagedata['path']).replace('.', '_'))
+        for blacklist_human_image in imagetable_filter_human:
+            blacklist_human_imagepath.append( create_image_url(request.get_host(), session_sid, humanid, os.path.basename(blacklist_human_image['path'])))
 
-        except:
-            pass
+        blacklist_image_list.append([
+                                     {'filename':os.path.basename(imagetable_filter_human[0]['path']).replace('.', '')},
+                                     {'first':create_image_url(request.get_host(), session_sid, humanid, os.path.basename(imagetable_filter_human[0]['path']))},
+                                     {'all':blacklist_human_imagepath},
+                                     {'humanid': humanid}
+                                    ])
+        count.append('')
+
+    blacklist_image_list.pop(0)
+    print(blacklist_image_list)
+
+    ######
+    # imageData = ImageTable.objects.filter(sid=session_sid).values()
+    # blFlagImagePath = []
+    # imgName = []
+    # humanTable = HumanTable.objects.filter(blflg=True).values()
+    #
+    # for imagedata in imageData:
+    #     imageHumanId = imagedata['humanid_id']
+    #     if imageHumanId == None:
+    #         continue
+    #
+    #     try:
+    #
+    #         HumanFilterData = humanTable.filter(humanid=imageHumanId)
+    #         blFlag = HumanFilterData[0]['blflg']
+    #
+    #         if blFlag:
+    #             # blFlagImagePath.append('http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(imagedata['path']))
+    #             blFlagImagePath.append(create_image_url(request.get_host(), session_sid, imageHumanId, os.path.basename(imagedata['path'])))
+    #             imgName.append(os.path.basename(imagedata['path']).replace('.', '_'))
+    #
+    #     except:
+    #         pass
 
     dataList = []
-    for i, _ in enumerate(blFlagImagePath):
+    for i, _ in enumerate(count):
         dataList.append({
-            'blFlagImagePath': blFlagImagePath[i],
-            'imgName': imgName[i],
+            'filename': blacklist_image_list[i][0]['filename'],
+            'first': blacklist_image_list[i][1]['first'],
+            'all': blacklist_image_list[i][2]['all'],
+            'humanid': blacklist_image_list[i][3]['humanid'],
         })
 
     template = loader.get_template('web/blacklist_bulma.html')
     context = {
         'location_bl': True,
-        'blFlagImagePath': blFlagImagePath,
+        # 'blFlagImagePath': blFlagImagePath,
         'dataList': dataList,
+        'blFlagImagePath': blacklist_image_list,
+        # 'dataList':dataList,
     }
     return HttpResponse(template.render(context, request))
 
