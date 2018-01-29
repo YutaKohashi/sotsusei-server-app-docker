@@ -1,5 +1,10 @@
 {% extends "base.html" %}
-
+{% block nav_image_active %}
+    active
+{% endblock nav_image_active %}
+{% block navbr_image_active %}
+    is-active
+{% endblock navbr_image_active %}
 {% block contents %}
     <div class="rows" style="margin-top: 20px;">
         <!--<div class="row">-->
@@ -188,8 +193,6 @@
             });
         </script>
         <!-- 記述場所④ -->
-
-        <script src="https://bulma.io/vendor/clipboard-1.7.1.min.js"></script>
-        <script src="https://bulma.io/lib/main.js"></script>
+    
     </div>
 {% endblock contents %}

@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>watch</title>
     <link rel="stylesheet" href="{% static 'web/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'web/bulma/css/bulma.css' %}" />
@@ -29,19 +30,19 @@
 
             <div class="navbar-menu is-active">
                 <div class="navbar-end">
-                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:home' %}"> <i class="fa fa-home"></i>
+                    <a class="navbar-item is-hidden-desktop {% block navbr_home_active %}{% endblock %}" href="{% url 'web:home' %}"> <i class="fa fa-home"></i>
                         ホーム
                     </a>
-                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:image' %}"><i class="fa fa-file-image-o"></i>
+                    <a class="navbar-item is-hidden-desktop {% block navbr_image_active %}{% endblock %}" href="{% url 'web:image' %}"><i class="fa fa-file-image-o"></i>
                         画像一覧
                     </a>
-                    <a class="navbar-item  is-hidden-desktop" href="{% url 'web:parking' %}"><i class="fa fa-car"></i>
+                    <a class="navbar-item  is-hidden-desktop {% block navbr_parking_active %}{% endblock %}" href="{% url 'web:parking' %}"><i class="fa fa-car"></i>
                         違法駐車
                     </a>
-                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:blacklist' %}"><i class="fa fa-list"></i>
+                    <a class="navbar-item is-hidden-desktop {% block navbr_blacklist_active %}{% endblock %}" href="{% url 'web:blacklist' %}"><i class="fa fa-list"></i>
                         ブラックリスト
                     </a>
-                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:setting' %}"><i class="fa fa-gear"></i>
+                    <a class="navbar-item is-hidden-desktop {% block navbr_setting_active %}{% endblock %}" href="{% url 'web:setting' %}"><i class="fa fa-gear"></i>
                         設定
                     </a>
 
@@ -61,15 +62,15 @@
     <aside class="column is-2 aside hero is-fullheight is-hidden-touch">
         <div>
             <div class="main">
-                <a href="{% url 'web:home' %}" class="item active"><span class="icon"><i class="fa fa-home"></i></span><span
+                <a href="{% url 'web:home' %}" class="item {% block nav_home_active %}{% endblock %}"><span class="icon"><i class="fa fa-home"></i></span><span
                         class="name">ホーム</span></a>
-                <a href="{% url 'web:image' %}" class="item"><span class="icon"><i class="fa fa-file-image-o"></i></span><span
+                <a href="{% url 'web:image' %}" class="item {% block nav_image_active %}{% endblock %}"><span class="icon"><i class="fa fa-file-image-o"></i></span><span
                         class="name">画像一覧</span></a>
-                <a href="{% url 'web:parking' %}" class="item"><span class="icon"><i class="fa fa-car"></i></span><span
+                <a href="{% url 'web:parking' %}" class="item {% block nav_parking_active %}{% endblock %}"><span class="icon"><i class="fa fa-car"></i></span><span
                         class="name">違法駐車</span></a>
-                <a href="{% url 'web:blacklist' %}" class="item"><span class="icon"><i class="fa fa-list"></i></span><span
+                <a href="{% url 'web:blacklist' %}" class="item {% block nav_blacklist_active %}{% endblock %}"><span class="icon"><i class="fa fa-list"></i></span><span
                         class="name">ブラックリスト</span></a>
-                <a href="{% url 'web:setting' %}" class="item"><span class="icon"><i class="fa fa-gear"></i></span><span
+                <a href="{% url 'web:setting' %}" class="item {% block nav_setting_active %}{% endblock %}"><span class="icon"><i class="fa fa-gear"></i></span><span
                         class="name">設定</span></a>
             </div>
         </div>
