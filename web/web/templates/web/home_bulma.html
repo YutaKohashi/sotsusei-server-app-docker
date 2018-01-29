@@ -1,10 +1,22 @@
 {% extends "base.html" %}
-
+{% block nav_home_active %}
+    active
+{% endblock nav_home_active %}
+{% block navbr_home_active %}
+    is-active
+{% endblock navbr_home_active %}
 {% block contents %}
     <div class="columns">
         <div class="column is-12">
-            <article class="box media" style="height: 300px; overflow-y: scroll; margin-top: 10px;">
+            <article class="box media" style="height: 600px; overflow-y: scroll; margin-top: 10px;">
                 <div class="media-content">
+                    <div class="hero is-light">
+                        <div class="hero-body">
+                            <div class="container" style="width: 100%;">
+                                <h1 class="title" align="center">カメライベント</h1>
+                            </div>
+                        </div>
+                    </div>
                     {% for news in news_ary%}
                         <article class="media">
                             <a href="{{news.url}}">{{news.comment}}</a>
@@ -16,12 +28,12 @@
     </div>
     <div class="columns">
         <div class="column is-6">
-            <article class="box media" style="height: 400px;overflow-y: scroll;">
+            <article class="box media" style="height: 600px;overflow-y: scroll;">
                 <div class="media-content">
 
-                    <div class="hero is-warning is-bold">
+                    <div class="hero is-dark">
                         <div class="hero-body">
-                            <div class="container" style="width: 400px;">
+                            <div class="container" style="width: 100%">
                                 <h1 class="title" align="center">違法駐車</h1>
                             </div>
                         </div>
@@ -36,12 +48,12 @@
             </article>
         </div>
         <div class="column is-6">
-            <article class="box media" style="height: 400px; overflow-y: scroll;">
+            <article class="box media" style="height: 600px; overflow-y: scroll;">
                 <div class="media-content">
 
-                    <div class="hero is-danger is-bold">
+                    <div class="hero is-dark">
                         <div class="hero-body">
-                            <div class="container" style="width: 400px;">
+                            <div class="container" style="width: 100%;">
                                 <h1 class="title" align="center">ブラックリスト</h1>
                             </div>
                         </div>
