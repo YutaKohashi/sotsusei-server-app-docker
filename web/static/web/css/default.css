@@ -1,4 +1,22 @@
-
+html, body, #app {
+    height: 100%;
+}
+#app {
+    min-height: 100%;
+    /*display: flex;*/
+   /*flex-direction: column;*/
+}
+.main-content {
+    /*flex: 1;*/
+}
+.footer {
+    margin-top: -12px;
+}
+@media screen and (max-width: 768px) {
+    #menu-toggle:checked + .nav-menu {
+        display: block;
+    }
+}
 
 
 
@@ -13,6 +31,21 @@
 @font-face {
     font-family: Ubuntu-Bold;
     src: url('../fonts/Ubuntu-Bold.ttf');
+}
+
+/*WATCH!Iのfont*/
+/*「WATCH」「I」*/
+.r {
+    font-size: xx-large;
+    color: hsl(348, 100%, 61%);
+    font-family: Impact, Charcoal;
+}
+
+/*「!」*/
+.b {
+    font-size: xx-large;
+    color: black;
+    font-family: Impact, Charcoal;
 }
 
 /*//////////////////////////////////////////////////////////////////
