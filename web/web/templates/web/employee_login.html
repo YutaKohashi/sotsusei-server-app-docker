@@ -8,31 +8,69 @@
 
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
-
+      <link rel="stylesheet" type="text/css" href="/static/web/css/util.css">
+      <link rel="stylesheet" type="text/css" href="/static/web/css/default.css">
   </head>
   <body>
-    <main class="columns">
-        <div class="column">
-            <div align="center">
-                <img src="https://i.imgur.com/ooD5hZk.png">
-                <h1 class="title is-2" style="margin-top: 10px;"><strong>従業員ログイン</strong></h1>
-                {{ status }}
-                <form id="loginForm" action="{% url 'web:login_auth_employee' %}" method="post" style="border-radius: 30px; border: 1px solid hsl(348, 100%, 61%); height: 240px; width: 480px;">
-                    {% csrf_token %}
-                    <div class="level-center">
-                        <div class="level-item" style="margin-top: 40px;">
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Employee ID" style="margin-top: 10px;" name="eid">
-                                    <input class="input" type="password" placeholder="Employee Pass" style="margin-top:15px;" name="epass">
-                                </div>
-                            </div>
-                        </div>
-                        <button class="button is-danger" style="margin-top: 15px; width: 373px;"><strong>ログイン</strong></button>
-                    </div>
-                </form>
-            </div>
+{#    <main class="columns">#}
+{#        <div class="column">#}
+{#            <div align="center">#}
+{#                <img src="https://i.imgur.com/ooD5hZk.png">#}
+{#                <h1 class="title is-2" style="margin-top: 10px;"><strong>従業員ログイン</strong></h1>#}
+{#                {{ status }}#}
+{#                <form id="loginForm" action="{% url 'web:login_auth_employee' %}" method="post" style="border-radius: 30px; border: 1px solid hsl(348, 100%, 61%); height: 240px; width: 480px;">#}
+{#                    {% csrf_token %}#}
+{#                    <div class="level-center">#}
+{#                        <div class="level-item" style="margin-top: 40px;">#}
+{#                            <div class="field">#}
+{#                                <div class="control">#}
+{#                                    <input class="input" type="text" placeholder="Employee ID" style="margin-top: 10px;" name="eid">#}
+{#                                    <input class="input" type="password" placeholder="Employee Pass" style="margin-top:15px;" name="epass">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <button class="button is-danger" style="margin-top: 15px; width: 373px;"><strong>ログイン</strong></button>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </main>#}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-1 p-b-90">
+            <form id="loginForm" class="login100-form validate-form flex-sb flex-w" action="{% url 'web:login_auth_employee' %}" method="post" >
+                {% csrf_token %}
+                <span class="login100-form-title p-b-51">
+                        <img src="/static/web/img/watch.png" style="width: 200px;"><br>
+						従業員ログイン
+					</span>
+
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                    <input class="input100" type="text" name="eid" placeholder="Employee ID" >
+                </div>
+
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                    <input class="input100" type="password" name="epass" placeholder="Employee Pass">
+                </div>
+
+                <div class="flex-sb-m w-full p-t-3 p-b-24">
+                </div>
+
+                <div class="container-login100-form-btn m-t-17">
+                    <button class="login100-form-btn">
+                        ログイン
+                    </button>
+                </div>
+
+                <a href="#" class="login1000-form-create-store m-t-25">
+                    従業員アカウントを作成
+                </a>
+            </form>
         </div>
-    </main>
+    </div>
+</div>
+
   </body>
 </html>

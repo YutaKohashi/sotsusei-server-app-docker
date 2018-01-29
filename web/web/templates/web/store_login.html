@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <title>店舗ログイン</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
@@ -8,39 +8,70 @@
 
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="/static/web/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/static/web/css/default.css">
 
-    <style>
-        /* .input{ */
-            /* border: ridge hsl(348, 100%, 61%); */
-            /* border: ridge rgb(80, 80, 80);
-            height: 40px; */
-        /* } */
-    </style>
 
-  </head>
-  <body>
-    <main class="columns">
-        <div class="column">
-            <div align="center">
-                <img src="https://i.imgur.com/ooD5hZk.png">
-                <h1 class="title is-2" style="margin-top: 10px;"><strong>店舗ログイン</strong></h1>
-                {{ status }}
-                <form id="loginForm" action="{% url 'web:login_auth_store' %}" method="post" style="border-radius: 30px; border: 1px solid hsl(348, 100%, 61%); height: 240px; width: 480px;">
+</head>
+<body>
+{#    <main class="columns">#}
+{#        <div class="column">#}
+{#            <div align="center">#}
+{#                <img src="https://i.imgur.com/ooD5hZk.png">#}
+{#                <h1 class="title is-2" style="margin-top: 10px;"><strong>店舗ログイン</strong></h1>#}
+{#                {{ status }}#}
+{#                <form id="loginForm" action="{% url 'web:login_auth_store' %}" method="post" style="border-radius: 30px; border: 1px solid hsl(348, 100%, 61%); height: 240px; width: 480px;">#}
+{#                {% csrf_token %}#}
+{#                    <div class="level-center">#}
+{#                        <div class="level-item" style="margin-top: 40px;">#}
+{#                            <div class="field">#}
+{#                                <div class="control">#}
+{#                                    <input class="input" type="text" placeholder="Store ID" style="margin-top: 10px;" name="sid">#}
+{#                                    <input class="input" type="password" placeholder="Store Pass" style="margin-top: 15px;" name="spass">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <button class="button is-danger" style="margin-top: 15px; width: 373px;"><strong>ログイン</strong></button>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </main>#}
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-1 p-b-90">
+            <form id="loginForm" class="login100-form validate-form flex-sb flex-w" action="{% url 'web:login_auth_store' %}" method="post" >
                 {% csrf_token %}
-                    <div class="level-center">
-                        <div class="level-item" style="margin-top: 40px;">
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Store ID" style="margin-top: 10px;" name="sid">
-                                    <input class="input" type="password" placeholder="Store Pass" style="margin-top: 15px;" name="spass">
-                                </div>
-                            </div>
-                        </div>
-                        <button class="button is-danger" style="margin-top: 15px; width: 373px;"><strong>ログイン</strong></button>
-                    </div>
-                </form>
-            </div>
+					<span class="login100-form-title p-b-51">
+                        <img src="/static/web/img/watch.png" style="width: 200px;"><br>
+						店舗ログイン
+					</span>
+
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                    <input class="input100" type="text" name="sid" placeholder="Store ID" >
+                </div>
+
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                    <input class="input100" type="password" name="spass" placeholder="Store Pass">
+                </div>
+
+                    <br>
+                <div class="container-login100-form-btn m-t-17">
+                    <button class="login100-form-btn">
+                        ログイン
+                    </button>
+                </div>
+
+
+                <a href="#" class="login1000-form-create-store m-t-25">
+                    店舗アカウントを作成
+                </a>
+            </form>
         </div>
-    </main>
-  </body>
+    </div>
+</div>
+
+</body>
 </html>
