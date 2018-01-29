@@ -1,0 +1,101 @@
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>watch</title>
+    <link rel="stylesheet" href="{% static 'web/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'web/bulma/css/bulma.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/default.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/inbox.css' %}" />
+    <script src="{% static 'web/js/jquery-2.1.4.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar has-shadow is-fixed-top">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'web:home' %}">
+                <img src="/static/web/img/watch.png" alt="watch">
+            </a>
+
+            <div class="navbar-burger burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenu" class="navbar-menu">
+
+            <div class="navbar-menu is-active">
+                <div class="navbar-end">
+                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:home' %}"> <i class="fa fa-home"></i>
+                        ホーム
+                    </a>
+                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:image' %}"><i class="fa fa-file-image-o"></i>
+                        画像一覧
+                    </a>
+                    <a class="navbar-item  is-hidden-desktop" href="{% url 'web:parking' %}"><i class="fa fa-car"></i>
+                        違法駐車
+                    </a>
+                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:blacklist' %}"><i class="fa fa-list"></i>
+                        ブラックリスト
+                    </a>
+                    <a class="navbar-item is-hidden-desktop" href="{% url 'web:setting' %}"><i class="fa fa-gear"></i>
+                        設定
+                    </a>
+
+                    <hr class="navbar-divider is-hidden-desktop" >
+                    <a class="navbar-item" href="{% url 'web:logout' %}"><i class="fa fa-sign-out"></i>
+                        ログアウト
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<html class="has-navbar-fixed-top">
+<section class="main-content columns is-fullheight has-navbar-fixed-top">
+
+    <aside class="column is-2 aside hero is-fullheight is-hidden-touch">
+        <div>
+            <div class="main">
+                <a href="{% url 'web:home' %}" class="item active"><span class="icon"><i class="fa fa-home"></i></span><span
+                        class="name">ホーム</span></a>
+                <a href="{% url 'web:image' %}" class="item"><span class="icon"><i class="fa fa-file-image-o"></i></span><span
+                        class="name">画像一覧</span></a>
+                <a href="{% url 'web:parking' %}" class="item"><span class="icon"><i class="fa fa-car"></i></span><span
+                        class="name">違法駐車</span></a>
+                <a href="{% url 'web:blacklist' %}" class="item"><span class="icon"><i class="fa fa-list"></i></span><span
+                        class="name">ブラックリスト</span></a>
+                <a href="{% url 'web:setting' %}" class="item"><span class="icon"><i class="fa fa-gear"></i></span><span
+                        class="name">設定</span></a>
+            </div>
+        </div>
+    </aside>
+
+    <div class="container column is-10">
+        <div class="section">
+            {% block contents %}{% endblock %}
+        </div>
+    </div>
+
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>c 卒業制作2018 防犯野郎Aチーム</p>
+        </div>
+    </div>
+</footer>
+
+</html>
+</body>
+<script>
+
+</script>
+<script src="{% static 'web/bulma/js/clipboard-1.7.1.min.js' %}"></script>
+<script src="{% static 'web/bulma/js/main.js' %}"></script>
+</html>
