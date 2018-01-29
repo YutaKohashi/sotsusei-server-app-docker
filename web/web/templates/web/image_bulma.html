@@ -123,7 +123,7 @@
                                         <!-- <div class="modal_img"> -->
                                             <button class="button is-danger modal_img">ブラックリスト追加</button>
                                         <!-- </div> -->
-                                    </a>                                            
+                                    </a>
                                     <p style="margin-left: 10px;">
                                         <strong>2017/10/10</strong>
                                     </p>
@@ -155,23 +155,29 @@
                                             </p>
                                         </div>
                                         <div class="column">
-                                            <article class="box media" style="height: 230px; width: 350; overflow-y: scroll;">
+                                            <article class="box media" style="height: 230px; width: 350px; overflow-y: scroll;">
                                                 <div class="media-content">
+
                                                     {% for bl_img_path in data.bl_img_paths %}
                                                     <div class="toggle">
                                                         <article class="media" style="height: 100px;">
                                                             <span style="height: 20px; width: 100px;">
                                                                 <a class="click" href="#">
-                                                                    <img src="{{bl_img_path}}" style="height: 75px; width: 70px;">
+                                                                    <img src="{{bl_img_path.0.path}}" style="height: 75px; width: 70px;">
                                                                 </a>
                                                             </span>
                                                             <span style="margin-top: 10px;">
-                                                                ブラックリスト登録済み
+                                                                {% if bl_img_path.1.bl == 'True' %}
+                                                                    ブラックリスト登録済み
+                                                                {% else %}
+                                                                    ブラックリスト未登録
+                                                                {% endif %}
                                                             </span>
                                                         </article>
                                                     </div>
                                                     {% endfor %}
-                                                </div>                                                                
+
+                                                </div>
                                             </article>                                                    
                                         </div>
                                     </div>
