@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token
-from api.views import image_view, views, account_verify_view
+from api.views import image_views, views, account_verify_view, camera_shutter_view,number_plate_view
 # from api import views
 
 
@@ -18,10 +18,10 @@ urlpatterns = [
     url(r'^', include(router.urls)),
 
     # 画像アップロード,削除
-    url(r'^image/$', image_view.image_view),
+    url(r'^image/$', image_views.image_view),
 
     # シャッター
-    url(r'^shutter',views.camera_shutter),
+    url(r'^shutter',camera_shutter_view.camera_shutter),
 
     # 店舗トークン作成
     url(r'^store/createtoken',account_verify_view.store_create_token),
@@ -34,6 +34,6 @@ urlpatterns = [
     url(r'^revocationtoken',account_verify_view.revocation_token),
 
     # ナンバープレート登録
-    url(r'^numberplate',views.register_number_plate)
+    url(r'^numberplate',number_plate_view.register_number_plate)
 
 ]
