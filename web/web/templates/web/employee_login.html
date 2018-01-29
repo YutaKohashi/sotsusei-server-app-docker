@@ -1,14 +1,13 @@
-<!DOCTYPE html>
+{% load staticfiles %}
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta charset="utf-8">
     <title>従業員ログイン</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" type="text/css" href="/static/web/css/util.css">
-    <link rel="stylesheet" type="text/css" href="/static/web/css/default.css">
+    <link rel="stylesheet" href="{% static 'web/bulma/css/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'web/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/util.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'web/css/default.css' %}">
 </head>
 <body>
 <div class="limiter">
@@ -18,7 +17,7 @@
                   action="{% url 'web:login_auth_employee' %}" method="post">
                 {% csrf_token %}
                 <span class="login100-form-title p-b-51">
-                        <img src="/static/web/img/watch.png" style="width: 200px;"><br>
+                        <img src="{% static 'web/img/watch.png' %}" style="width: 200px;"><br>
 						従業員ログイン
 					</span>
 
