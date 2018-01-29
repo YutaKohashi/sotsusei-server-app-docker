@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>設定</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script> -->
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
+    <!-- 記述場所⑤ -->
+    <style>
+        /* table{
+            border-collapse: collapse;
+            border-spacing: 5px;
+        }
+
+        td{
+            border: 1px gray solid;
+        } */
+
+        /*WATCH!Iのfont*/
+        /*「WATCH」「I」*/
+        .r{
+            font-size: xx-large;
+            color: hsl(348, 100%, 61%);
+            font-family: Impact,Charcoal;
+        }
+        /*「!」*/
+        .b{
+            font-size: xx-large;
+            color: black;
+            font-family: Impact,Charcoal;
+        }
+
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+        <div class="navbar-start">
+            <span class="navbar-item">
+                <!-- <a class="fa fa-language" href="configuration_bulma.html">設定</a> -->
+                <a href="../../">
+                    <p id="font"><span class="r">WATCH</span><span class="b">!</span><span class="r">I</span></p>
+                </a>
+            </span>
+        </div>
+        <div class="navbar-end">
+            <span class="navbar-item">
+                <a href="../logout/">ログアウト</a>
+            </span>
+        </div>
+        <!-- 記述場所③ -->
+    </header>
+    <!-- 記述場所③ -->
+    <main class="columns">
+
+        {% include 'web/sidemenu.html' %}
+
+        <div class="column" style="margin-top: 10px;">
+
+            <section class="hero is-info is-primary is-bold">
+                <div class="hero-body">
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column is-4">
+                                <table class="table" align="center" style="width: 400px; height: 50px;">
+                                    <thead>
+                                        <tr>
+                                            <th>店舗情報</th>
+                                            <th style="text-align: right;"><button class="button is-success">店舗情報変更</button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align: center;">住所</th>
+                                            <td style="text-align: center;">{{ setting_dic.address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="text-align: center;">パスワード</th>
+                                            <td style="text-align: center;">{{ setting_dic.store_pass }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table" align="center" style="width: 400px; height: 50px;">
+                                    <thead>
+                                        <tr>
+                                            <th>アカウント情報</th>
+                                            <th style="text-align: right;"><button class="button is-success">アカウント情報変更</button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align: center;">パスワード</th>
+                                            <td style="text-align: center;">{{ setting_dic.employee_pass }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="column is-8">
+                                <table class="table" align="center" style="width: 600px; height: 50px;" id="tbl1">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;" colspan="4">従業員一覧</th>
+                                            <th style="text-align: center;"><a class="modal-button" data-target="modal-add">
+                                                <button class="button is-success">追加</button>
+                                            </a></th>
+                                            <div id="modal-add" class="modal">
+                                                <div class="modal-background"></div>
+                                                <div class="modal-card">
+                                                    <header class="modal-card-head">
+                                                        <p class="modal-card-title" align="center">従業員追加</p>
+                                                        <button class="delete" aria-label="close"></button>
+                                                    </header>
+                                                    <form method='post' action=''>
+                                                        {% csrf_token %}
+                                                        <section class="modal-card-body">
+                                                            <div class="Eid">
+                                                                <label class="label">従業員ID</label>
+                                                                <div class="control">
+                                                                    <input class="input" type="text" name="eid">
+                                                                </div>
+                                                            </div>
+                                                            <div class="Name">
+                                                                <label class="label">氏名</label>
+                                                                <div class="control">
+                                                                    <input class="input" type="text" name="ename">
+                                                                </div>
+                                                            </div>
+                                                            <div class="Passward">
+                                                                <label class="label">パスワード</label>
+                                                                <div class="control">
+                                                                    <input class="input" type="text" name="passward">
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                        <footer class="modal-card-foot">
+                                                            <a class="modal-button"><button class="button is-success">追加</button></a>
+                                                            <a class="modal-button"><button class="button is-danger" style="margin-left: 20px;">キャンセル</button></a>
+                                                        </footer>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <th style="text-align: center;"><button class="button is-danger">削除</button></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th style="text-align: center;">従業員ID</th>
+                                            <th style="text-align: center;">氏名</th>
+                                            <th style="text-align: center;">パスワード</th>
+                                            <th style="text-align: center;">店舗ID</th>
+                                            <th style="text-align: center;">ステータス</th>
+                                            <th style="text-align: center;">登録日</th>
+                                            <!-- <th></th> -->
+                                        </tr>
+                                        <!-- <tr class="tbl"> -->
+                                        {% for empdata in setting_dic.employee_list %}
+                                        <tr>
+                                            <td style="text-align: center;">{{ empdata.eid }}</td>
+                                            <td style="text-align: center;">{{ empdata.ename }}</td>
+                                            <td style="text-align: center;">{{ empdata.epass }}</td>
+                                            <td style="text-align: center;">{{ empdata.sid }}</td>
+                                            <td style="text-align: center;">有効</td>
+                                            <td style="text-align: center;">{{ empdata.date }}</td>
+                                            <!-- <td><button class="button is-danger" onclick="delLine(this)">削除</button></td> -->
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+        
+    </main>
+    <!-- 記述場所④ -->
+    <script>
+        // var delLine = function(targetEl) {
+
+            // inputの親要素のtrを取得する
+            // tr = targetEl.parentNode.parentNode;
+
+            // tr = targetEl.parentNode;
+
+            // 対象のtr行を削除する
+            // tr.parentNode.deleteRow(tr.sectionRowIndex);
+
+        // }
+
+        // $(function(){
+        //     tr_default("#tbl1");
+        //     $(".tbl").click(function(){
+        //         tr_default("#tbl1");
+        //         tr_click($(this));
+        //     });
+        // });
+
+        // function tr_default(tblID){
+        //     var vTR = tblID + " .tbl";
+        //     $(vTR).css("background-color","#ffffff");
+        //     $(vTR).mouseover(function(){
+        //         $(this).css("background-color","#CCFFCC") .css("cursor","pointer")
+        //     });
+        //     $(vTR).mouseout(function(){
+        //         $(this).css("background-color","#ffffff") .css("cursor","normal")
+        //     });
+        // }
+
+        // function tr_click(trID){
+        //     trID.css("background-color","#e49e61");
+        //     trID.mouseover(function(){
+        //         $(this).css("background-color","#CCFFCC") .css("cursor","pointer")
+        //     });
+        //     trID.mouseout(function(){
+        //         $(this).css("background-color","#e49e61") .css("cursor","normal")
+        //     });
+        // }
+    </script>
+
+    <script src="https://bulma.io/vendor/clipboard-1.7.1.min.js"></script>
+    <script src="https://bulma.io/lib/main.js?v=201711101034"></script>
+
+  </body>
+</html>
