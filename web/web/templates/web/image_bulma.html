@@ -5,131 +5,139 @@
 {% block navbr_image_active %}
     is-active
 {% endblock navbr_image_active %}
+{% load staticfiles %}
+
 {% block contents %}
-    <div class="rows" style="margin-top: 20px;">
+    <div style="margin-top: 20px;">
 
         {% for data in dataList %}
-            <div class="row">
+            <div>
                 <h1 class="title">
-                    {{data.datetime}}
+                    {{ data.datetime }}
                     <hr>
                 </h1>
             </div>
-            <div class="row">
-                <div class="columns">
+            <div class="columns is-multiline">
 
-                    {% for path in data.img_path %}
-                        <div class="column">
-                            <article class="box media" style="height: 170px; width: 200px;">
-                                <div class="content">
-                                    <!-- <p style="height: 210px; width: 140px;"> -->
-                                    <a class="modal-button" data-target="modal-bis{{path}}">
-                                        <img src="{{path}}" style="height: 130px; width: 160px;">
+                {% for path in data.img_path %}
+                    <div class="column is-3-widescreen is-4-desktop is-6-tablet">
+                        <article class="box media image image is-4by3">
+                            <a class="modal-button" data-target="modal-bis{{ path }}">
+{#                                <img src="{{ path }}">#}
+                                <img class="lazy" data-original="{{ path }}"  />
+                            </a>
+                        </article>
+                        <div id="modal-bis{{ path }}" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <p class="image is-4by3">
+                                    <img src="{{ path }}">
+                                </p>
+                                <footer class="modal-card-foot">
+                                    <!-- <button class="button is-success">掲示板アップロード</button> -->
+                                    <!-- <button class="button is-danger">ブラックリスト追加</button> -->
+                                    <a class="modal-button" data-target="modal-black{{ path }}"
+                                       style="margin-left: 60px;">
+                                        <!-- <div class="modal_img"> -->
+                                        <button class="button is-danger modal_img">ブラックリスト追加</button>
+                                        <!-- </div> -->
                                     </a>
-                                    <!-- </p> -->
-                                </div>
-                            </article>
-                            <div id="modal-bis{{path}}" class="modal">
-                                <div class="modal-background"></div>
-                                <div class="modal-content">
-                                    <p class="image is-4by3">
-                                        <img src="{{path}}">
+                                    <p style="margin-left: 10px;">
+                                        <strong>2017/10/10</strong>
                                     </p>
-                                    <footer class="modal-card-foot">
-                                        <!-- <button class="button is-success">掲示板アップロード</button> -->
-                                        <!-- <button class="button is-danger">ブラックリスト追加</button> -->
-                                        <a class="modal-button" data-target="modal-black{{path}}" style="margin-left: 60px;">
-                                            <!-- <div class="modal_img"> -->
-                                            <button class="button is-danger modal_img">ブラックリスト追加</button>
-                                            <!-- </div> -->
-                                        </a>
-                                        <p style="margin-left: 10px;">
-                                            <strong>2017/10/10</strong>
-                                        </p>
-                                        <a class="modal-button" data-target="modal-neko7" style="margin-left: 10px;">
-                                            <button class="button is-info">Previous</button>
-                                        </a>
-                                        <p style="margin-left: 10px;">
-                                            <strong>1/8</strong>
-                                        </p>
-                                        <a class="modal-button" data-target="modal-neko" style="margin-left: 10px;">
-                                            <button class="button is-success">Next</button>
-                                        </a>
-                                    </footer>
-                                </div>
-                                <button class="modal-close is-large"></button>
+                                    <a class="modal-button" data-target="modal-neko7" style="margin-left: 10px;">
+                                        <button class="button is-info">Previous</button>
+                                    </a>
+                                    <p style="margin-left: 10px;">
+                                        <strong>1/8</strong>
+                                    </p>
+                                    <a class="modal-button" data-target="modal-neko" style="margin-left: 10px;">
+                                        <button class="button is-success">Next</button>
+                                    </a>
+                                </footer>
                             </div>
+                            <button class="modal-close is-large"></button>
+                        </div>
 
-                            <div id="modal-black{{path}}" class="modal">
-                                <div class="modal-background"></div>
-                                <div class="modal-card">
-                                    <header class="modal-card-head">
-                                        <p class="modal-card-title" align="center">ブラックリスト登録画面</p>
-                                    </header>
-                                    <section class="modal-card-body">
-                                        <div class="columns">
-                                            <div class="column">
-                                                <p class="change">
-                                                    <img src="nonnon222.jpg">
-                                                </p>
-                                            </div>
-                                            <div class="column">
-                                                <article class="box media" style="height: 230px; width: 350; overflow-y: scroll;">
-                                                    <div class="media-content">
-                                                        {% for bl_img_path in data.bl_img_paths %}
-                                                            <div class="toggle">
-                                                                <article class="media" style="height: 100px;">
+                        <div id="modal-black{{ path }}" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title" align="center">ブラックリスト登録画面</p>
+                                </header>
+                                <section class="modal-card-body">
+                                    <div class="columns">
+                                        <div class="column">
+                                            <p class="change">
+                                                <img src="nonnon222.jpg">
+                                            </p>
+                                        </div>
+                                        <div class="column">
+                                            <article class="box media"
+                                                     style="height: 230px; width: 350px; overflow-y: scroll;">
+                                                <div class="media-content">
+
+                                                    {% for bl_img_path in data.bl_img_paths %}
+                                                        <div class="toggle">
+                                                            <article class="media" style="height: 100px;">
                                                             <span style="height: 20px; width: 100px;">
                                                                 <a class="click" href="#">
-                                                                    <img src="{{bl_img_path}}" style="height: 75px; width: 70px;">
+                                                                    <img src="{{ bl_img_path.0.path }}"
+                                                                         style="height: 75px; width: 70px;">
                                                                 </a>
                                                             </span>
-                                                                    <span style="margin-top: 10px;">
-                                                                ブラックリスト登録済み
+                                                                <span style="margin-top: 10px;">
+                                                                {% if bl_img_path.1.bl == 'True' %}
+                                                                    ブラックリスト登録済み
+                                                                {% else %}
+                                                                    ブラックリスト未登録
+                                                                {% endif %}
                                                             </span>
-                                                                </article>
-                                                            </div>
-                                                        {% endfor %}
-                                                    </div>
-                                                </article>
-                                            </div>
+                                                            </article>
+                                                        </div>
+                                                    {% endfor %}
+
+                                                </div>
+                                            </article>
                                         </div>
-                                        <hr>
-                                        <textarea class="textarea"></textarea>
-                                    </section>
+                                    </div>
+                                    <hr>
+                                    <textarea class="textarea"></textarea>
+                                </section>
 
-                                    <form method='post' action=''>
-                                        {% csrf_token %}
-                                        <input type="hidden" name="bl_path" class="bl_path" value="{{path}}">
-                                        <footer class="modal-card-foot">
-                                            <button class="button is-success">登録</button>
-                                            <button class="button">取消</button>
-                                        </footer>
-                                    </form>
+                                <form method='post' action=''>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="bl_path" class="bl_path" value="{{ path }}">
+                                    <footer class="modal-card-foot">
+                                        <button class="button is-success">登録</button>
+                                        <button class="button">取消</button>
+                                    </footer>
+                                </form>
 
-                                </div>
                             </div>
-
                         </div>
-                    {% endfor %}
 
-                </div>
+                    </div>
+                {% endfor %}
+
             </div>
         {% endfor %}
 
-    
     </div>
-{% endblock contents %}
+{% endblock %}
+
 {% block end_scripts %}
+
     <!-- まずはjQueryを読み込みます -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{#    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>#}
 
     <!-- ソート機能用のスクリプト読み込み -->
-    <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+{#    <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>#}
 
     <script type="text/javascript">
-        $(function(){
-            $(".modal_img").on("click", function(){
+        $(function () {
+
+            $(".modal_img").on("click", function () {
                 //選択状態を解除する
                 $(".toggle").removeClass("is-active");
 
@@ -139,7 +147,7 @@
             });
 
             //選択状態の背景色を変更
-            $(".click").on("click", function(){
+            $(".click").on("click", function () {
                 //選択状態を解除する
                 $(".toggle").removeClass("is-active");
 
@@ -169,4 +177,4 @@
 
         });
     </script>
-{%  endblock %}
+{% endblock %}

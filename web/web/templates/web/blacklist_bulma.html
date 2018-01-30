@@ -7,32 +7,20 @@
 {% endblock navbar_blacklist_active %}
 {% block contents %}
 
-<div class="rows" style="margin-top: 20px;">
-    {#                <div class="row">#}
-    {#                        <div class="columns">#}
-    {#                            <div class="column is-7">#}
-    {#                                <!-- <a class="modal-button" data-target="modal-reg"><button class="button is-success">追加</button></a> -->#}
-    {#                                <button class="button is-success">追加</button>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
+    <div style="margin-top: 20px;">
 
-    <div class="row">
-        <div class="columns">
-
+        <div class="columns is-multiline">
 
             {% for data in dataList %}
-                <div class="column">
-                    <article class="box media" style="height: 190px; width: 240px;">
-                        <div class="content">
-                            <p style="height: 200px; width: 200px;">
-                                <a class="modal-button" data-target="modal-reg-{{data.filename}}">
-                                    <img src="{{data.first}}">
-                                </a>
-                            </p>
-                        </div>
+                <div class="column is-2-widescreen is-3-desktop is-4-tablet">
+                    <article class="box media image image is-square">
+                        <a class="modal-button" data-target="modal-reg-{{ data.filename }}">
+{#                            <img src="{{ data.first }}">#}
+                            <img class="lazy" data-original="{{ data.first }}"  />
+                        </a>
                     </article>
-                    <div id="modal-reg-{{data.filename}}" class="modal">
+
+                    <div id="modal-reg-{{ data.filename }}" class="modal">
                         <div class="modal-background"></div>
                         <div class="modal-card">
                             <section class="modal-card-body" style="height: 500px;">
@@ -41,7 +29,7 @@
                                     {% for onazi in data.all %}
                                         <div class="column is-4">
                                             <p style="height: 100px; width: 190px;">
-                                                <img src="{{onazi}}">
+                                                <img src="{{ onazi }}">
                                             </p>
                                         </div>
                                     {% endfor %}
@@ -52,17 +40,17 @@
                                 {% csrf_token %}
                                 <footer class="modal-card-foot">
                                     <input type="hidden" name="blacklist_humanid" value="{{ data.humanid }}">
-                                    <button class="button is-danger">解除</button>
+                                    <button class="button is-danger" >解除</button>
                                     <button class="button is-info">閉じる</button>
                                 </footer>
                             </form>
+
                         </div>
                     </div>
 
                 </div>
             {% endfor %}
+
         </div>
     </div>
-
-</div>
 {% endblock contents %}

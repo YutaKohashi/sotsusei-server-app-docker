@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'web/bulma/css/bulma.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'web/css/default.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'web/css/inbox.css' %}" />
-    <script src="{% static 'web/js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'web/js/jquery-3.3.1.min.js' %}"></script>
+{#    <script src="{% static 'web/js/lazyload.min.js' %}"></script>#}
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 </head>
 <body>
@@ -96,5 +97,10 @@
 {% block end_scripts %}{% endblock %}
 <script src="{% static 'web/bulma/js/clipboard-1.7.1.min.js' %}"></script>
 <script src="{% static 'web/bulma/js/main.js' %}"></script>
+<script src="{% static 'web/js/jquery.lazyload.min.js' %}"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $("img.lazy").lazyload();
+</script>
 </body>
 </html>
