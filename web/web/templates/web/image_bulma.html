@@ -7,30 +7,6 @@
 {% endblock navbr_image_active %}
 {% block contents %}
     <div class="rows" style="margin-top: 20px;">
-        <!--<div class="row">-->
-        <!--<div class="columns">-->
-        <!--<div class="column level-right">-->
-        <!--<div class="level-item">-->
-        <!--<div class="dropdown is-right">-->
-        <!--<div class="dropdown-trigger">-->
-        <!--<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">-->
-        <!--<span>表示方法</span>-->
-        <!--<span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span>-->
-        <!--</button>-->
-        <!--</div>-->
-        <!--<div class="dropdown-menu" id="dropdown-menu" role="menu">-->
-        <!--<div class="dropdown-content">-->
-        <!--<a href="#" class="dropdown-item">グリッド表示</a>-->
-        <!--<a href="#" class="dropdown-item">リスト表示</a>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>  -->
-        <!--</div>-->
-
-        <!--</div>-->
-        <!---->
-        <!--</div>-->
 
         {% for data in dataList %}
             <div class="row">
@@ -141,58 +117,56 @@
             </div>
         {% endfor %}
 
-
-
-        <!-- まずはjQueryを読み込みます -->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-        <!-- ソート機能用のスクリプト読み込み -->
-        <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
-
-        <script type="text/javascript">
-            $(function(){
-
-                $(".modal_img").on("click", function(){
-                    //選択状態を解除する
-                    $(".toggle").removeClass("is-active");
-
-                    var mimg = $(this).parents(".modal-content").find("img").attr("src");
-
-                    $(".change").children("img").attr("src", mimg);
-                });
-
-                //選択状態の背景色を変更
-                $(".click").on("click", function(){
-                    //選択状態を解除する
-                    $(".toggle").removeClass("is-active");
-
-                    $(this).parents(".toggle").toggleClass("is-active");
-
-                    var img_change = $(this).children("img").attr("src");
-
-                    // 登録ボタンのvalueを変更する
-                    $(".bl_path").val(img_change);
-
-                    $(".change").children("img").attr("src", img_change);
-                });
-
-                // $("#re").click(function(){
-                //     location.reload(true);
-                // });
-                // Instantiate MixItUp:
-
-                // if(flg == false){
-                //     document.getElementById('#dis').style.display = none;
-                // }
-
-                // $('#alldis').click(function(){
-                //     document.getElementById('#dis').style.display = inline;
-                // });
-                // $('#Container').mixItUp();
-
-            });
-        </script>
-        <!-- 記述場所④ -->
     
     </div>
 {% endblock contents %}
+{% block end_scripts %}
+    <!-- まずはjQueryを読み込みます -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <!-- ソート機能用のスクリプト読み込み -->
+    <script src="http://cdn.jsdelivr.net/jquery.mixitup/latest/jquery.mixitup.min.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $(".modal_img").on("click", function(){
+                //選択状態を解除する
+                $(".toggle").removeClass("is-active");
+
+                var mimg = $(this).parents(".modal-content").find("img").attr("src");
+
+                $(".change").children("img").attr("src", mimg);
+            });
+
+            //選択状態の背景色を変更
+            $(".click").on("click", function(){
+                //選択状態を解除する
+                $(".toggle").removeClass("is-active");
+
+                $(this).parents(".toggle").toggleClass("is-active");
+
+                var img_change = $(this).children("img").attr("src");
+
+                // 登録ボタンのvalueを変更する
+                $(".bl_path").val(img_change);
+
+                $(".change").children("img").attr("src", img_change);
+            });
+
+            // $("#re").click(function(){
+            //     location.reload(true);
+            // });
+            // Instantiate MixItUp:
+
+            // if(flg == false){
+            //     document.getElementById('#dis').style.display = none;
+            // }
+
+            // $('#alldis').click(function(){
+            //     document.getElementById('#dis').style.display = inline;
+            // });
+            // $('#Container').mixItUp();
+
+        });
+    </script>
+{%  endblock %}
