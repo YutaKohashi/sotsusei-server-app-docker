@@ -18,39 +18,39 @@
                 <div class="column is-2-widescreen is-3-desktop is-4-tablet">
                     <article class="box media image image is-square">
                         <a class="modal-button" data-target="modal-reg-{{ data.filename }}">
-{#                            <img src="{{ data.first }}">#}
-                            <img class="lazy" data-original="{{ data.first }}"  />
+                            {#                            <img src="{{ data.first }}">#}
+                            <img class="lazy" data-original="{{ data.first }}"/>
                         </a>
                     </article>
 
                     <div id="modal-reg-{{ data.filename }}" class="modal">
                         <div class="modal-background"></div>
                         <div class="modal-card">
-                            <section class="modal-card-body" style="height: 500px;">
-                                <div class="columns">
-
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">写真一覧</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <section class="modal-card-body">
+                                <div class="columns is-multiline">
                                     {% for onazi in data.all %}
                                         <div class="column is-4">
-                                            <p style="height: 100px; width: 190px;">
-                                                <img src="{{ onazi }}">
-                                            </p>
+                                            <article class="box media image image is-square">
+                                                <img src="{{ onazi }}"/>
+                                            </article>
                                         </div>
                                     {% endfor %}
-
                                 </div>
                             </section>
-                            <form method='post' action=''>
-                                {% csrf_token %}
-                                <footer class="modal-card-foot">
+                            <footer class="modal-card-foot">
+                                <form method='post' action='' style='margin-right: 20px'>
+                                    {% csrf_token %}
                                     <input type="hidden" name="blacklist_humanid" value="{{ data.humanid }}">
-                                    <button class="button is-danger" >解除</button>
-                                    <button class="button is-info">閉じる</button>
-                                </footer>
-                            </form>
-
+                                    <button class="button is-danger">ブラックリスト登録を解除する</button>
+                                </form>
+                                <button class="button">閉じる</button>
+                            </footer>
                         </div>
                     </div>
-
                 </div>
             {% endfor %}
 
