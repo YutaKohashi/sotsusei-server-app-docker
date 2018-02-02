@@ -6,7 +6,8 @@ from . import views
 app_name = 'web'
 urlpatterns = [
     url(r'^$', views.home, name='home'),
-    url(r'^image/$', views.image, name='image'),
+    # url(r'^image/$', views.image, name='image'),
+    url(r'^image/$', views.image_new, name='image'),
     # url(r'^board/$', views.board, name='board'),
     url(r'^blacklist/$', views.blacklist, name='blacklist'),
     url(r'^setting/$', views.setting, name='setting'),

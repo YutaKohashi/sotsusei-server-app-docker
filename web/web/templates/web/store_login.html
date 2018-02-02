@@ -24,12 +24,12 @@
 
 
                 <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                    <input class="input100" type="text" name="sid" placeholder="Store ID" >
+                    <input class="input100" type="text" name="sid" placeholder="Store ID" value="00000">
                 </div>
 
 
                 <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
-                    <input class="input100" type="password" name="spass" placeholder="Store Pass">
+                    <input class="input100" type="password" name="spass" placeholder="Store Pass" value="00000">
                 </div>
 
                     <br>
@@ -40,13 +40,77 @@
                 </div>
 
 
-                <a href="#" class="login1000-form-create-store m-t-25">
+                <a  class="modal-button login1000-form-create-store m-t-25" data-target="modal-reg">
                     店舗アカウントを作成
                 </a>
             </form>
+
+            <div id="modal-reg" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title" align="center"> 店舗アカウントを作成</p>
+                        <button class="delete" aria-label="close"></button>
+                    </header>
+
+                    <form method='post' action=''>
+                        {% csrf_token %}
+                        <input type="hidden" name="parking_add" value="parking_add">
+                        <section class="modal-card-body">
+                            <div class="Location">
+                                <label class="label">店舗ID</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="location">
+                                </div>
+                            </div>
+                            <div class="Classnumber">
+                                <label class="label">店舗名称</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="classnumber">
+                                </div>
+                            </div>
+                            <div class="Location">
+                                <label class="label">代表者の名前</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="location">
+                                </div>
+                            </div>
+                            <div class="Classnumber">
+                                <label class="label">住所</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="classnumber">
+                                </div>
+                            </div>
+                            <div class="Hiragana">
+                                <label class="label">グループID</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="hiragana">
+                                </div>
+                            </div>
+                            <div class="Location">
+                                <label class="label">グループパスワード</label>
+                                <div class="control">
+                                    <input class="input" type="text" name="location">
+                                </div>
+                            </div>
+                        </section>
+                        <footer class="modal-card-foot">
+                            <!-- <a class="modal-button" data-target="modal-reg2"><button class="button is-info">次へ</button></a> -->
+                            <a class="modal-button">
+                                <button class="button is-info">登録</button>
+                            </a>
+                            <a class="modal-button">
+                                <button class="button" style="margin-left: 20px;">キャンセル</button>
+                            </a>
+                        </footer>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
+<script src="{% static 'web/bulma/js/clipboard-1.7.1.min.js' %}"></script>
+<script src="{% static 'web/bulma/js/main.js' %}"></script>
+<script src="{% static 'web/js/jquery.lazyload.min.js' %}"></script>
 </body>
 </html>

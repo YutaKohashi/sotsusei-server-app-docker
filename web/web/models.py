@@ -6,7 +6,7 @@ from django.db import models
 class GroupStoreTable(models.Model):
     gid = models.CharField(primary_key=True,max_length=255, default=str(uuid.uuid4().hex))
     gname = models.CharField(max_length=255)
-
+    gpass = models.CharField(max_length=255, default=None, blank=True, null=True)
     def __str__(self):
         return str(self.gid)
 
