@@ -14,10 +14,10 @@ class NewsType(Enum):
 class NewsManager:
 
     def get_news_by_sid(self, newsType, sid):
-        return NewsTable.objects.get(sid=sid, type=newsType.value).values()
+        return NewsTable.objects.filter(sid=sid, type=newsType.value).order_by('-datetime').values()
 
     def get_news_by_gid(self, newsType, gid):
-        return NewsTable.objects.get(gid=gid, type=newsType.value).values()
+        return NewsTable.objects.filter(gid=gid, type=newsType.value).order_by('-datetime').values()
 
     # シャッタイベントを登録するメソッド
     def register_event_shutter(self, sid, eid, comment):
@@ -34,6 +34,10 @@ class NewsManager:
     # ブラックリストに存在する
     def def_msg_balcklist(self, target_name):
         return "ブラックリストのユーザ " + str(target_name) + " がカメラ内に認識されました"
+
+    # ブラックリストに存在する
+    def def_msg_balcklist_regist(self, emp_id, emp_name):
+        return "従業員ID:" + str(emp_id) + " " + str(emp_name) + "さんがブラックリストに登録しました"
 
     def def_msg_shtter(self,emp_id, emp_name):
         return "従業員ID:" + str(emp_id) + " " + str(emp_name) + "さんが写真を記録しました"
