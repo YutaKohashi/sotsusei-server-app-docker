@@ -16,9 +16,44 @@
                 <thead>
                 <tr>
                     <th>店舗情報</th>
-                    <th style="text-align: right;">
+                    <th style="text-align: center;"><a class="modal-button" data-target="modal-store-edit">
                         <button class="button is-success">店舗情報変更</button>
-                    </th>
+                    </a></th>
+                    <div id="modal-store-edit" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title" align="center">店舗情報の編集</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <form method='post' action='' style='margin:0'>
+                                {% csrf_token %}
+                                <input type='hidden' name='store_edit' />
+                                <section class="modal-card-body">
+                                    <div class="Address">
+                                        <label class="label">住所</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="address">
+                                        </div>
+                                    </div>
+                                    <div class="Passward">
+                                        <label class="label">パスワード</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="spass">
+                                        </div>
+                                    </div>
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <a class="modal-button">
+                                        <button class="button is-success">変更</button>
+                                    </a>
+                                    <a class="modal-button">
+                                        <button class="button is-danger" style="margin-left: 20px;">キャンセル</button>
+                                    </a>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,9 +73,38 @@
                 <thead>
                 <tr>
                     <th>アカウント情報</th>
-                    <th style="text-align: right;">
+                    <th style="text-align: center;"><a class="modal-button" data-target="modal-myaccount-edit">
                         <button class="button is-success">アカウント情報変更</button>
-                    </th>
+                    </a></th>
+                    <div id="modal-myaccount-edit" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title" align="center">アカウント情報の編集</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <form method='post' action='' style='margin:0'>
+                                {% csrf_token %}
+                                <input type='hidden' name='employee_edit' />
+                                <section class="modal-card-body">
+                                    <div class="Passward">
+                                        <label class="label">パスワード</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="eid_pass">
+                                        </div>
+                                    </div>
+                                </section>
+                                <footer class="modal-card-foot">
+                                    <a class="modal-button">
+                                        <button class="button is-success">変更</button>
+                                    </a>
+                                    <a class="modal-button">
+                                        <button class="button is-danger" style="margin-left: 20px;">キャンセル</button>
+                                    </a>
+                                </footer>
+                            </form>
+                        </div>
+                    </div>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,7 +133,7 @@
                                 <p class="modal-card-title" align="center">従業員追加</p>
                                 <button class="delete" aria-label="close"></button>
                             </header>
-                            <form method='post' action=''>
+                            <form method='post' action='' style='margin:0'>
                                 {% csrf_token %}
                                 <section class="modal-card-body">
                                     <div class="Eid">
@@ -124,9 +188,20 @@
                         <td style="text-align: center;">{{ empdata.ename }}</td>
                         <td style="text-align: center;">{{ empdata.epass }}</td>
                         <td style="text-align: center;">{{ empdata.sid }}</td>
-                        <td style="text-align: center;">有効</td>
+{#                        <td style="text-align: center;">有効</td>#}
+                        <td style="text-align: center;">
+                            <form action='' method=''>
+                                {% csrf_token %}
+                                <div class="select">
+                                  <select>
+                                    <option value='enable' {% if empdata.status == '2' %}selected{% endif %}>有効</option>
+                                    <option value='disable' {% if empdata.status == '1' %}selected{% endif %}>無効</option>
+                                  </select>
+                                </div>
+                            </form>
+                        </td>
                         <td style="text-align: center;">{{ empdata.date }}</td>
-                        <!-- <td><button class="button is-danger" onclick="delLine(this)">削除</button></td> -->
+                        <td><button class="button is-danger" onclick="delLine(this)">削除</button></td>
                     </tr>
                 {% endfor %}
                 </tbody>
