@@ -679,11 +679,15 @@ def setting(request):
 
         # パスワードの変更
         try:
-            employee = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).first()
-            employee.eid = req_id
-            employee.employeename = req_name
-            employee.password = req_pass
-            employee.save()
+            # saveだと新たに追加されてしまうので、updateを使用
+            employee = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).values()
+            employee.update(eid=req_id,
+                            employeename=req_name,
+                            password=req_pass)
+
+            # セッション情報を書き換える
+            session_eid = req_id
+            request.session['eid'] = req_id
         except EmployeeTable.DoesNotExist as e:
             print(e.args)
 
