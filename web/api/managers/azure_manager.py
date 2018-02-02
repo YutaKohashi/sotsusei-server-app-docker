@@ -106,7 +106,7 @@ class AzureManager:
     # ２つの顔を比較し同一人物のときはTrue　違うときはFalseを返す
     def compare_faces(self, face_id_1, face_id_2):
         # TODO しきい値を0.7に設定
-        threshold = 0.7
+        threshold = 0.6
         response = self.verify_face(face_id_1, face_id_2).json()
         # time.sleep(3)
         try:
@@ -123,7 +123,7 @@ class AzureManager:
     # humans         → HumanTable model　のリスト
     # return humanid
     def __contains_humans(self, target_face_id, humans):
-        threshold = 0.7
+        threshold = 0.6
         try:
             faceIds = []
             for h in humans: faceIds.append(h.faceid)

@@ -1,5 +1,6 @@
 html,body {
   /*font-family: 'Open Sans', serif;*/
+  font-family:  "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, Meiryo, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   height: 100%;
@@ -210,4 +211,61 @@ html,body {
 }
 .card.active {
   background-color:#F5F5F5;
+}
+
+.home-no-news-center{
+  height: 100%;
+  margin-top: -100px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+/**
+画像選択
+ */
+.image_list {
+  /* liが横並びになるようにします。 */
+  /*display: inline-block;*/
+}
+.image_list .image_box {
+  /*width: 200px;*/
+  /*height: 200px;*/
+  /* チェックボックスの親要素にrelativeを指定しておきます。 */
+  position: relative;
+}
+.image_box img.thumbnail {
+  width: 100%;
+  height: 100%;
+  /* 画像にカーソルを合わせたときに、
+  カーソルが指のマークになるようにします。 */
+  cursor: pointer;
+}
+.image_box img.thumbnail.checked {
+  /* チェックが入った状態だと、枠が表示されるようにします。 */
+  border: 6px solid blue;
+  /* 線をwidthとheightに含めるようにします。 */
+  box-sizing: border-box;
+}
+.image_box .disabled_checkbox {
+  /* チェックボックスの位置は絶対位置にします。 */
+  position: absolute;
+  /* チェックボックスは、親要素の右上から12pxの位置に配置します。 */
+  top: 12px;
+  right: 12px;
+  /* チェック前は非表示にしておきます。 */
+  display: none;
+  /* チェックボックスを大きくします。 */
+  transform: scale(2);
+  /* チェックボックスにカーソルを合わせたときに、
+  カーソルが指のマークになるようにします。 */
+  cursor: pointer;
+}
+.image_box img.thumbnail.checked + .disabled_checkbox {
+  /* 画像にcheckedクラスが指定されたときは、
+  チェックボックスの非表示を解除します。 */
+  display: block;
 }
