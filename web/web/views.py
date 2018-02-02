@@ -649,21 +649,96 @@ def setting(request):
     session_sid = request.session['sid']
     session_eid = request.session['eid']
 
+    # 権限。0:普通, 1;管理者
+    plebel = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).first().plebel
+
+    #
+    # 店舗情報の編集
+    #
+    if 'store_edit' in request.POST:
+        req_address = request.POST['address']
+        req_pass = request.POST['spass']
+
+        # 住所・パスワードの変更
+        try:
+            store = StoreTable.objects.filter(sid=session_sid).first()
+            store.address = req_address
+            store.password = req_pass
+            store.save()
+        except StoreTable.DoesNotExist as e:
+            print(e.args)
+
+
+    #
+    # 従業員情報の編集
+    #
+    if 'employee_edit' in request.POST:
+        req_id = request.POST['eid']
+        req_name = request.POST['ename']
+        req_pass = request.POST['epass']
+
+        # パスワードの変更
+        try:
+            employee = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).first()
+            employee.eid = req_id
+            employee.employeename = req_name
+            employee.password = req_pass
+            employee.save()
+        except EmployeeTable.DoesNotExist as e:
+            print(e.args)
+
+    #
+    # 従業員のステータス編集(管理者のみ)
+    #
+    if 'employee_status' in request.POST:
+        # 管理者でログイン中のみ処理
+        if plebel == 1:
+            req_eid = request.POST['employee_status'] # eidが入る
+            req_status = request.POST['status']
+
+            status = 2
+            if req_status == 'disable':
+                status = 1
+
+            # パスワードの変更
+            try:
+                employee = EmployeeTable.objects.filter(sid=session_sid, eid=req_eid).first()
+                employee.status = status
+                employee.save()
+            except EmployeeTable.DoesNotExist as e:
+                print(e.args)
+
     #
     # 従業員の追加
     #
-    if 'eid' in request.POST:
-        req_eid = request.POST['eid']
-        req_ename = request.POST['ename']
-        req_passward = request.POST['passward']
-        req_status = 2
+    if 'employee_add' in request.POST:
+        if plebel == 1:
+            req_eid = request.POST['eid']
+            req_ename = request.POST['ename']
+            req_passward = request.POST['epass']
+            req_status = 2
 
-        EmployeeTable(eid=req_eid,
-                      employeename=req_ename,
-                      password=req_passward,
-                      sid_id=session_sid,
-                      status=req_status,
-                      plebel=0).save()
+            EmployeeTable(eid=req_eid,
+                          employeename=req_ename,
+                          password=req_passward,
+                          sid_id=session_sid,
+                          status=req_status,
+                          plebel=0).save()
+
+    #
+    # 従業員の削除
+    #
+    if 'employee_delete_eid' in request.POST:
+        if plebel == 1:
+            req_eid = request.POST['employee_delete_eid']
+            print(req_eid)
+
+            # 従業員の削除実行
+            try:
+                EmployeeTable(sid_id=session_sid, eid=req_eid).delete()
+            except EmployeeTable.DoesNotExist as e:
+                print(e.args)
+
 
     '''
     WEB表示
@@ -674,8 +749,10 @@ def setting(request):
     setting_dic['address'] = storetable['address']
     setting_dic['store_pass'] = storetable['password']
 
-    # アカウント情報(ログイン中の従業員パス)
+    # アカウント情報(ログイン中の従業員情報)
     employeetable = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).values().first()
+    setting_dic['employee_id'] = employeetable['eid']
+    setting_dic['employee_name'] = employeetable['employeename']
     setting_dic['employee_pass'] = employeetable['password']
 
     # 従業員一覧
@@ -686,13 +763,18 @@ def setting(request):
                               'ename': data['employeename'],
                               'epass': data['password'],
                               'sid': data['sid_id'],
+                              'status': data['status'],
                               'date': data['date']})
     setting_dic['employee_list'] = employee_list
+
+    # 権限の状態
+    plebel = EmployeeTable.objects.filter(sid=session_sid, eid=session_eid).first().plebel
 
     template = loader.get_template('web/configuration_bulma.html')
     context = {
         'location_setting': True,
         'setting_dic': setting_dic,
+        'plebel': plebel,
     }
     return HttpResponse(template.render(context, request))
 

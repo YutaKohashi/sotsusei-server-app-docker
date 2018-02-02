@@ -16,6 +16,8 @@
                 <thead>
                 <tr>
                     <th>店舗情報</th>
+
+                    {% if plebel == 1 %}
                     <th style="text-align: center;"><a class="modal-button" data-target="modal-store-edit">
                         <button class="button is-success">店舗情報変更</button>
                     </a></th>
@@ -33,27 +35,30 @@
                                     <div class="Address">
                                         <label class="label">住所</label>
                                         <div class="control">
-                                            <input class="input" type="text" name="address">
+                                            <input class="input" type="text" name="address" value="{{ setting_dic.address }}">
                                         </div>
                                     </div>
                                     <div class="Passward">
                                         <label class="label">パスワード</label>
                                         <div class="control">
-                                            <input class="input" type="text" name="spass">
+                                            <input class="input" type="text" name="spass" value="{{ setting_dic.store_pass }}">
                                         </div>
                                     </div>
                                 </section>
                                 <footer class="modal-card-foot">
                                     <a class="modal-button">
-                                        <button class="button is-success">変更</button>
+                                        <button class="button">変更</button>
                                     </a>
                                     <a class="modal-button">
-                                        <button class="button is-danger" style="margin-left: 20px;">キャンセル</button>
+                                        <button class="button" style="margin-left: 20px;">キャンセル</button>
                                     </a>
                                 </footer>
                             </form>
                         </div>
                     </div>
+                    {% else %}
+                        <th></th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -74,7 +79,7 @@
                 <tr>
                     <th>アカウント情報</th>
                     <th style="text-align: center;"><a class="modal-button" data-target="modal-myaccount-edit">
-                        <button class="button is-success">アカウント情報変更</button>
+                        <button class="button is-success">従業員情報の編集</button>
                     </a></th>
                     <div id="modal-myaccount-edit" class="modal">
                         <div class="modal-background"></div>
@@ -87,19 +92,31 @@
                                 {% csrf_token %}
                                 <input type='hidden' name='employee_edit' />
                                 <section class="modal-card-body">
+                                    <div class="Eid">
+                                        <label class="label">従業員ID</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="eid" value="{{ setting_dic.employee_id }}">
+                                        </div>
+                                    </div>
+                                    <div class="Name">
+                                        <label class="label">名前</label>
+                                        <div class="control">
+                                            <input class="input" type="text" name="ename" value="{{ setting_dic.employee_name }}">
+                                        </div>
+                                    </div>
                                     <div class="Passward">
                                         <label class="label">パスワード</label>
                                         <div class="control">
-                                            <input class="input" type="text" name="eid_pass">
+                                            <input class="input" type="text" name="epass" value="{{ setting_dic.employee_pass }}">
                                         </div>
                                     </div>
                                 </section>
                                 <footer class="modal-card-foot">
                                     <a class="modal-button">
-                                        <button class="button is-success">変更</button>
+                                        <button class="button">変更</button>
                                     </a>
                                     <a class="modal-button">
-                                        <button class="button is-danger" style="margin-left: 20px;">キャンセル</button>
+                                        <button class="button" style="margin-left: 20px;">キャンセル</button>
                                     </a>
                                 </footer>
                             </form>
@@ -108,6 +125,14 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <th style="text-align: center;">従業員ID</th>
+                    <td style="text-align: center;">{{ setting_dic.employee_id }}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">名前</th>
+                    <td style="text-align: center;">{{ setting_dic.employee_name }}</td>
+                </tr>
                 <tr>
                     <th style="text-align: center;">パスワード</th>
                     <td style="text-align: center;">{{ setting_dic.employee_pass }}</td>
@@ -121,10 +146,13 @@
             <table class="table" align="center" style="width: 100%;">
                 <thead>
                 <tr>
-                    <th style="text-align: center;" colspan="4">従業員一覧</th>
-                    <th style="text-align: center;"><a class="modal-button" data-target="modal-add">
-                        <button class="button is-success">追加</button>
-                    </a></th>
+                    <th style="text-align: center;" colspan="{% if plebel == 1 %}6{% else %}7{% endif %}">従業員一覧</th>
+                    {% if plebel == 1 %}
+                    <th style="text-align: center;">
+                        <a class="modal-button" data-target="modal-add">
+                            <button class="button is-success">追加</button>
+                        </a>
+                    </th>
 
                     <div id="modal-add" class="modal">
                         <div class="modal-background"></div>
@@ -135,6 +163,7 @@
                             </header>
                             <form method='post' action='' style='margin:0'>
                                 {% csrf_token %}
+                                <input type='hidden' name='employee_add' />
                                 <section class="modal-card-body">
                                     <div class="Eid">
                                         <label class="label">従業員ID</label>
@@ -151,57 +180,72 @@
                                     <div class="Passward">
                                         <label class="label">パスワード</label>
                                         <div class="control">
-                                            <input class="input" type="text" name="passward">
+                                            <input class="input" type="text" name="epass">
                                         </div>
                                     </div>
                                 </section>
                                 <footer class="modal-card-foot">
                                     <a class="modal-button">
-                                        <button class="button is-success">追加</button>
+                                        <button class="button">追加</button>
                                     </a>
                                     <a class="modal-button">
-                                        <button class="button is-danger" style="margin-left: 20px;">キャンセル</button>
+                                        <button class="button" style="margin-left: 20px;">キャンセル</button>
                                     </a>
                                 </footer>
                             </form>
                         </div>
                     </div>
-                    <th style="text-align: center;">
-                        <button class="button is-danger">削除</button>
-                    </th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th style="text-align: center;">従業員ID</th>
                     <th style="text-align: center;">氏名</th>
-                    <th style="text-align: center;">パスワード</th>
+                    {% if plebel == 1 %}<th style="text-align: center;">パスワード</th>{% endif %}
                     <th style="text-align: center;">店舗ID</th>
                     <th style="text-align: center;">ステータス</th>
                     <th style="text-align: center;">登録日</th>
-                    <!-- <th></th> -->
+                    {% if plebel == 1 %}<th></th>{% endif %}
                 </tr>
                 <!-- <tr class="tbl"> -->
                 {% for empdata in setting_dic.employee_list %}
                     <tr>
                         <td style="text-align: center;">{{ empdata.eid }}</td>
                         <td style="text-align: center;">{{ empdata.ename }}</td>
-                        <td style="text-align: center;">{{ empdata.epass }}</td>
+                        {% if plebel == 1 %}<td style="text-align: center;">{{ empdata.epass }}</td>{% endif %}
                         <td style="text-align: center;">{{ empdata.sid }}</td>
 {#                        <td style="text-align: center;">有効</td>#}
                         <td style="text-align: center;">
-                            <form action='' method=''>
-                                {% csrf_token %}
-                                <div class="select">
-                                  <select>
-                                    <option value='enable' {% if empdata.status == '2' %}selected{% endif %}>有効</option>
-                                    <option value='disable' {% if empdata.status == '1' %}selected{% endif %}>無効</option>
-                                  </select>
-                                </div>
-                            </form>
+                            {% if plebel == 1 %}
+                                <form action='' method='post'>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="employee_status" value="{{ empdata.eid }}">
+                                    <div class="select">
+                                      <select name="status" onChange="this.form.submit()">
+                                        <option value='enable' {% if empdata.status == 2 %}selected{% endif %}>有効</option>
+                                        <option value='disable' {% if empdata.status == 1 %}selected{% endif %}>無効</option>
+                                      </select>
+                                    </div>
+                                </form>
+                            {% else %}
+                                {% if empdata.status == 0 %}
+                                    有効
+                                {% else %}
+                                    無効
+                                {% endif %}
+                            {% endif %}
                         </td>
                         <td style="text-align: center;">{{ empdata.date }}</td>
-                        <td><button class="button is-danger" onclick="delLine(this)">削除</button></td>
+                        {% if plebel == 1 %}
+                        <td>
+                            <form action='' method='post'>
+                                {% csrf_token %}
+                                <input type='hidden' name='employee_delete_eid' value="{{ empdata.eid }}" />
+                                <button class="button is-danger" onclick="delLine(this)">削除</button>
+                            </form>
+                        </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
