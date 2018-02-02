@@ -14,21 +14,24 @@ appName = 'web'
 
 imageid_dic2 = {}
 
-
 '''
 画像のURLを生成する
 '''
+
+
 def create_image_url(host_address, sid, humanid, file_name, orgflg=False):
     if orgflg:
         return 'http://' + host_address + settings.MEDIA_URL + sid + '/original/' + file_name
     return 'http://' + host_address + settings.MEDIA_URL + sid + '/' + str(humanid) + '/' + file_name
 
+
 # セッションの状態
 class SessionType:
-    EID_AND_SID =0
+    EID_AND_SID = 0
     EID_ONlY = 1
     SID_ONLY = 2
     EID_AND_SID_NONE = 3
+
 
 class SessionManager:
 
@@ -76,14 +79,15 @@ class SessionManager:
                 context = {
                     'location_home': True,
                 }
-                return HttpResponse(template.render(context ,def_request))
+                return HttpResponse(template.render(context, def_request))
 
 
 '''
 店舗ログインの画面
 '''
-def login_home_sid(request):
 
+
+def login_home_sid(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -101,8 +105,9 @@ def login_home_sid(request):
 '''
 従業員ログインの画面
 '''
-def login_home_eid(request):
 
+
+def login_home_eid(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -120,8 +125,9 @@ def login_home_eid(request):
 '''
 店舗ログインの認証処理
 '''
-def login_auth_store(request):
 
+
+def login_auth_store(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -149,14 +155,12 @@ def login_auth_store(request):
             template = loader.get_template('web/store_login.html')
             context = {
                 'location_home': True,
-                'status':'店舗ログインに失敗しました。',
+                'status': '店舗ログインに失敗しました。',
             }
             return HttpResponse(template.render(context, request), status=400)
 
-
     if 'logout' in request.POST:
         request.session.clear()
-
 
     if 'eid' not in request.session and 'sid' in request.session and 'spass' in request.session:
         # 従業員ログインへ
@@ -169,11 +173,13 @@ def login_auth_store(request):
     # 上記if文のどれにも、当てはまらない場合、店舗ログインへ
     return HttpResponseRedirect('../login_sid/')
 
+
 '''
 従業員ログインの認証処理
 '''
-def login_auth_employee(request):
 
+
+def login_auth_employee(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -204,7 +210,7 @@ def login_auth_employee(request):
                     template = loader.get_template('web/employee_login.html')
                     context = {
                         'location_home': True,
-                        'status':'従業員ログインに失敗しました。',
+                        'status': '従業員ログインに失敗しました。',
                     }
                     return HttpResponse(template.render(context, request))
 
@@ -220,7 +226,7 @@ def login_auth_employee(request):
                 return HttpResponse(template.render(context, request), status=400)
 
         if 'logout' in request.POST:
-            #e eid kesu
+            # e eid kesu
             request.session.clear()
 
         if 'eid' in request.session and 'epass' in request.session:
@@ -230,9 +236,12 @@ def login_auth_employee(request):
     # return render(request, "web/logined-eid.html", {'loggedIn': loggedIn, 'name': name})
     return HttpResponseRedirect('../')
 
+
 '''
 ログアウト処理
 '''
+
+
 def logout(request):
     # セッション削除
     request.session.clear()
@@ -245,13 +254,12 @@ def logout(request):
     return HttpResponse(template.render(context, request))
 
 
-
-
 '''
 トップページ
 '''
-def home(request):
 
+
+def home(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -261,31 +269,43 @@ def home(request):
 
     session_sid = request.session['sid']
     session_eid = request.session['eid']
+    gid = StoreTable.objects.filter(sid=session_sid).first().gid
+    print(gid)
 
     # 新しい順に取得(最大30件)
-    newstables = NewsTable.objects.filter(sid=session_sid).order_by('-datetime').values()[:30]
+    # newstables = NewsTable.objects.filter(sid=session_sid).order_by('-datetime').values()[:30]
+    # print(len(newstables))
+    # print('てまえ')
+    news_manager = NewsManager()
+    camera_news = news_manager.get_news_by_sid(sid=session_sid, newsType=NewsType.SHUTTER)
+    ihochusha_news = news_manager.get_news_by_gid(gid=gid, newsType=NewsType.IHO_CHUSHA)
+    print(len(ihochusha_news))
+    blacklist_news = news_manager.get_news_by_gid(gid=gid, newsType=NewsType.BLACK_LIST)
 
-    news_ary = []
-    news_ihouchusha_ary = []
-    news_blacklist_ary = []
-    for news in newstables:
-        news_type = news['type']
-        news_comment = news['comment']
-        if NewsType.IHO_CHUSHA.value == news_type:
-            news_ary.append({'url':'ihochusha', 'comment':news_comment})
-            news_ihouchusha_ary.append({'url':'ihochusha', 'comment':news_comment})
-        if NewsType.BLACK_LIST.value == news_type:
-            news_ary.append({'url':'blacklist', 'comment':news_comment})
-            news_blacklist_ary.append({'url':'blacklist', 'comment':news_comment})
-
+    # news_ary = []
+    # news_ihouchusha_ary = []
+    # news_blacklist_ary = []
+    # # print('てまえ')
+    # for news in newstables:
+    #     print('for')
+    #     news_type = news['type']
+    #     print('news_type : ' + str(news_type))
+    #     news_comment = news['comment']
+    #     if NewsType.IHO_CHUSHA.value == news_type:
+    #         news_ary.append({'url': 'ihochusha', 'comment': news_comment})
+    #         news_ihouchusha_ary.append({'url': 'ihochusha', 'comment': news_comment})
+    #     if NewsType.BLACK_LIST.value == news_type:
+    #         news_ary.append({'url': 'blacklist', 'comment': news_comment})
+    #         news_blacklist_ary.append({'url': 'blacklist', 'comment': news_comment})
+    # print(len(news_ary))
     template = loader.get_template('web/home_bulma.html')
     context = {
         'location_home': True,
-        'news_ary': news_ary,
-        'news_ihouchusha_ary': news_ihouchusha_ary,
-        'news_blacklist_ary': news_blacklist_ary,
-        'sid':session_sid,
-        'eid':session_eid,
+        'news_ary': camera_news,
+        'news_ihouchusha_ary': ihochusha_news,
+        'news_blacklist_ary': blacklist_news,
+        'sid': session_sid,
+        'eid': session_eid,
     }
     return HttpResponse(template.render(context, request))
 
@@ -293,6 +313,8 @@ def home(request):
 '''
 画像一覧ページ
 '''
+
+
 def image(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
@@ -310,7 +332,8 @@ def image(request):
     # 画像一覧表示
     #
     humanTable = HumanTable.objects.filter(sid=session_sid).values()
-    org_image_datas = ImageTable.objects.filter(sid=session_sid, shutterflg=True, originalflg=True).order_by('-datetime').values() # 日付が新しい順にソートして取得
+    org_image_datas = ImageTable.objects.filter(sid=session_sid, shutterflg=True, originalflg=True).order_by(
+        '-datetime').values()  # 日付が新しい順にソートして取得
     not_org_image_datas = ImageTable.objects.filter(sid=session_sid, originalflg=False).order_by('-datetime').values()
 
     # if len(imageid_dic) != 0:
@@ -326,7 +349,7 @@ def image(request):
         # image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(image['path'])
         image_url = create_image_url(request.get_host(), session_sid, '', os.path.basename(image['path']), True)
         org_imageid = str(image['imageid'])
-        child_imageid_list = not_org_image_datas.filter(originalimageid=org_imageid) # 同じ写真に写っている人
+        child_imageid_list = not_org_image_datas.filter(originalimageid=org_imageid)  # 同じ写真に写っている人
         child_imageid_ary = []
 
         # 写真に2人以上写っている場合は、その個別の画像のパスを配列にする
@@ -334,21 +357,23 @@ def image(request):
             for child_imageid in child_imageid_list:
                 child_humanid = child_imageid['humanid_id']
                 # child_image_url = 'http://' + request.get_host() + '/media_' + session_sid + '/' + os.path.basename(child_imageid['path'])
-                child_image_url = create_image_url(request.get_host(), session_sid, child_humanid, os.path.basename(child_imageid['path']))
+                child_image_url = create_image_url(request.get_host(), session_sid, child_humanid,
+                                                   os.path.basename(child_imageid['path']))
                 black_flag = str(humanTable.filter(humanid=child_humanid).values().first()['blflg'])
-                child_imageid_ary.append([{'path':child_image_url}, {'bl':black_flag}])
+                child_imageid_ary.append([{'path': child_image_url}, {'bl': black_flag}])
                 imageid_dic[child_image_url] = str(child_imageid['imageid'])
         else:
             # 一人しか写っていない場合。
-            child_image_url = create_image_url(request.get_host(), session_sid, humanid, os.path.basename(image_url), True)
-            child_imageid_ary.append([{'path':child_image_url}, {'bl':'False'}])
+            child_image_url = create_image_url(request.get_host(), session_sid, humanid, os.path.basename(image_url),
+                                               True)
+            child_imageid_ary.append([{'path': child_image_url}, {'bl': 'False'}])
 
-        if(date == '') :
+        if (date == ''):
             date = date2
             result.append([date, [image_url], child_imageid_ary])
             imageid_dic[image_url] = org_imageid
         elif (date == date2):
-            result[rowIndex+1][1].append(image_url)
+            result[rowIndex + 1][1].append(image_url)
             imageid_dic[image_url] = org_imageid
         else:
             rowIndex += 1
@@ -358,7 +383,6 @@ def image(request):
 
     result.pop(0)
     imgs = result
-
 
     #
     # ブラックリスト登録（FlagをTrueにする）
@@ -374,7 +398,7 @@ def image(request):
             human_row = ImageTable.objects.filter(sid=session_sid, imageid=org_imageid).values()
             image_humanid = human_row[0]['humanid_id']
             blackflag_register_human_row = HumanTable.objects.filter(humanid=image_humanid).values()
-            blackflag_register_human_row.update(blflg=True) # ブラックリストフラグをたてて上書きする
+            blackflag_register_human_row.update(blflg=True)  # ブラックリストフラグをたてて上書きする
 
             '''
             ニューステーブルに追加
@@ -383,7 +407,6 @@ def image(request):
             employee_name = EmployeeTable.objects.filter(sid=session_sid).values().first()['employeename']
             comment = NewsManager().def_msg_ihochusha(session_eid, employee_name)
             NewsManager().register_event_blacklist(gid, comment)
-
 
     #
     # ブラックリストFlagのある画像だけ取り出す
@@ -400,7 +423,8 @@ def image(request):
 
             if blFlag:
                 # blFlagImagePath.append('http://' + request.get_host() + '/media_' + str(imagedata['sid_id']) + '/' + os.path.basename(imagedata['path']))
-                blFlagImagePath.append(create_image_url(request.get_host(), session_sid, imageHumanId, os.path.basename(imagedata['path'])))
+                blFlagImagePath.append(create_image_url(request.get_host(), session_sid, imageHumanId,
+                                                        os.path.basename(imagedata['path'])))
         except:
             pass
 
@@ -412,7 +436,6 @@ def image(request):
 
     dataList = []
     for i, _ in enumerate(imgs):
-
         dataList.append({
             'datetime': imgs[i][0],
             'img_path': imgs[i][1],
@@ -435,8 +458,9 @@ def image(request):
 '''
 ブラックリスト
 '''
-def blacklist(request):
 
+
+def blacklist(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -452,7 +476,7 @@ def blacklist(request):
     if 'blacklist_humanid' in request.POST:
         req_humanid = request.POST['blacklist_humanid']
         human_table = HumanTable.objects.filter(sid=session_sid, blflg=True, humanid=req_humanid).values()
-        human_table.update(blflg=False) # フラグをFalseにして更新
+        human_table.update(blflg=False)  # フラグをFalseにして更新
 
     # ブラックリストに登録されているhumanidを取り出す
     human_tables = HumanTable.objects.filter(blflg=True).values()
@@ -466,14 +490,16 @@ def blacklist(request):
         blacklist_human_imagepath = []
 
         for blacklist_human_image in imagetable_filter_human:
-            blacklist_human_imagepath.append( create_image_url(request.get_host(), session_sid, humanid, os.path.basename(blacklist_human_image['path'])))
+            blacklist_human_imagepath.append(create_image_url(request.get_host(), session_sid, humanid,
+                                                              os.path.basename(blacklist_human_image['path'])))
 
         blacklist_image_list.append([
-                                     {'filename':os.path.basename(imagetable_filter_human[0]['path']).replace('.', '')},
-                                     {'first':create_image_url(request.get_host(), session_sid, humanid, os.path.basename(imagetable_filter_human[0]['path']))},
-                                     {'all':blacklist_human_imagepath},
-                                     {'humanid': humanid}
-                                    ])
+            {'filename': os.path.basename(imagetable_filter_human[0]['path']).replace('.', '')},
+            {'first': create_image_url(request.get_host(), session_sid, humanid,
+                                       os.path.basename(imagetable_filter_human[0]['path']))},
+            {'all': blacklist_human_imagepath},
+            {'humanid': humanid}
+        ])
         count.append('')
 
     blacklist_image_list.pop(0)
@@ -496,11 +522,13 @@ def blacklist(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 '''
 違法駐車
 '''
-def parking(request):
 
+
+def parking(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -519,14 +547,14 @@ def parking(request):
         #
 
         # プレートの色
-        req_cartype = 0 #'white'
+        req_cartype = 0  # 'white'
 
         if 'green' in request.POST:
-            req_cartype = 5 #'green'
+            req_cartype = 5  # 'green'
         if 'yellow' in request.POST:
-            req_cartype = 6 #'yellow'
+            req_cartype = 6  # 'yellow'
         if 'black' in request.POST:
-            req_cartype = 0 #'black'
+            req_cartype = 0  # 'black'
 
         location = request.POST['location']
         classnumber = request.POST['classnumber']
@@ -535,19 +563,19 @@ def parking(request):
 
         # DBに登録する
         CarTable(sid_id=session_sid,
-                 shiyohonkyochi =location,
-                 bunruibango =classnumber,
+                 shiyohonkyochi=location,
+                 bunruibango=classnumber,
                  # ひらがな1字
-                 jigyoyohanbetsumoji =hiragana,
+                 jigyoyohanbetsumoji=hiragana,
                  # ナンバー
-                 ichirenshiteibango =number,
+                 ichirenshiteibango=number,
                  # 0:普通, 1:軽自動車, 3:事業用普通, 4:事業用系自動車, 5:外交官
-                 cartype =req_cartype,
+                 cartype=req_cartype,
                  # 0:黒, 1:白, 2:グレー, 3:青系, 4:赤系, 5:緑系, 6:黄系
-                 colortype =0,
+                 colortype=0,
                  # 0:トヨタ, 1:日産, 2:三菱, 3:ホンダ, 4:マツダ, 5:スバル, 6:すずき, 7:ダイハツ, 8:その他
-                 makertype =0,
-                 comment ='comment').save()
+                 makertype=0,
+                 comment='comment').save()
 
         '''
         ニューステーブルに追加
@@ -562,7 +590,7 @@ def parking(request):
     editData = parkingData
     storeData = StoreTable.objects.all().values()
     sname = []
-    numberPlateImages = [] # ナンバープレート画像
+    numberPlateImages = []  # ナンバープレート画像
 
     i = 0
     for parkingdata in parkingData:
@@ -578,7 +606,7 @@ def parking(request):
         elif colortype == 3:
             editData[i]['colortype'] = '黒'
         elif colortype == 4:
-            editData[i]['colortype'] = '青' # 外交官
+            editData[i]['colortype'] = '青'  # 外交官
 
         # 店名
         parking_sid = str(parkingdata['sid_id'])
@@ -602,11 +630,13 @@ def parking(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 '''
 設定　：　店舗情報の閲覧・従業員追加
 '''
-def setting(request):
 
+
+def setting(request):
     sessionManager = SessionManager()
     session_status = sessionManager.loginCheck(request)
     session_status_result = sessionManager.redirecter(request, session_status)
@@ -621,7 +651,6 @@ def setting(request):
     # 従業員の追加
     #
     if 'eid' in request.POST:
-
         req_eid = request.POST['eid']
         req_ename = request.POST['ename']
         req_passward = request.POST['passward']
@@ -633,7 +662,6 @@ def setting(request):
                       sid_id=session_sid,
                       status=req_status,
                       plebel=0).save()
-
 
     '''
     WEB表示
@@ -652,11 +680,11 @@ def setting(request):
     employee_list = []
     employeetable = EmployeeTable.objects.filter(sid=session_sid).values()
     for data in employeetable:
-        employee_list.append({'eid':data['eid'],
-                              'ename':data['employeename'],
-                              'epass':data['password'],
-                              'sid':data['sid_id'],
-                              'date':data['date']})
+        employee_list.append({'eid': data['eid'],
+                              'ename': data['employeename'],
+                              'epass': data['password'],
+                              'sid': data['sid_id'],
+                              'date': data['date']})
     setting_dic['employee_list'] = employee_list
 
     template = loader.get_template('web/configuration_bulma.html')
@@ -670,6 +698,8 @@ def setting(request):
 '''
 掲示板
 '''
+
+
 def board(request):
     # DBからデータ取得
     threadCommentTuple = ThreadsTable.objects.values_list('comment')
@@ -686,7 +716,7 @@ def board(request):
     for imgPath in imagePathTuple:
         imgs.append('http://' + request.get_host() + settings.MEDIA_URL + os.path.basename(imgPath[0]))
 
-    template = loader.get_template('web/board_bulma.html')
+    template = loader.get_template('web/other/board_bulma.html')
     context = {
         'location_board': True,
         'comments': comments,
@@ -694,10 +724,94 @@ def board(request):
     }
     return HttpResponse(template.render(context, request))
 
+
 @login_required
 def mypage(request):
-    return render(request, 'web/mypage.html')
+    return render(request, 'web/other/mypage.html')
+
 
 @login_required
 def redilect(request):
-    return render(request, 'web/redirect.html')
+    return render(request, 'web/other/redirect.html')
+
+
+'''
+画像一覧ページ
+'''
+
+
+def image_new(request):
+    print('image-new   :  1')
+    sessionManager = SessionManager()
+    session_status = sessionManager.loginCheck(request)
+    session_status_result = sessionManager.redirecter(request, session_status)
+
+    if session_status_result != True:
+        return session_status_result
+
+    session_sid = request.session['sid']
+    session_eid = request.session['eid']
+
+    #
+    # 画像一覧表示
+    #
+    # humanTable = HumanTable.objects.filter(sid=session_sid)
+    # シャッタフラグ:True
+    # オリジナルフラグ:True
+    # 日付が新しい順に取得
+    original_images = ImageTable.objects.filter(sid=session_sid, shutterflg=True, originalflg=True).order_by(
+        '-datetime')
+
+    image_array = [[]]
+    # オリジナルの画像ごとに回す
+    for i, original_image in enumerate(original_images):
+
+        original_image.path = create_image_url(request.get_host(), session_sid, '',
+                                               os.path.basename(original_image.path), True)
+        image_array.append([original_image])
+        # image_array[i].append(original_image)
+        if i == 0: del image_array[0]
+        # オリジナルのimageidを取得
+        original_image_id = original_image.imageid
+
+        # オリジナルの画像に対しての人の顔の画像を取得する
+        human_images = ImageTable.objects.filter(sid=session_sid, originalflg=False, originalimageid=original_image_id)
+
+        for human_image in human_images:
+            human_image.path = create_image_url(request.get_host(), session_sid, human_image.humanid,
+                                                os.path.basename(human_image.path))
+            # human_image.humanid = str(human_image.humanid)
+            image_array[i].append(human_image)
+
+    #
+    # ブラックリスト登録（FlagをTrueにする）
+    #
+    if request.method == 'POST':
+        if 'humanId' in request.POST:
+            humanId = request.POST['humanId']
+            register_name = request.POST['register_name']
+
+            human = HumanTable.objects.filter(humanid=humanId).first()
+            human.blflg = True
+            human.name = register_name
+            human.save()
+            '''
+            ニューステーブルに追加
+            '''
+            gid = StoreTable.objects.filter(sid=session_sid).values().first()['gid_id']
+            employee_name = EmployeeTable.objects.filter(sid=session_sid).values().first()['employeename']
+            comment = NewsManager().def_msg_balcklist_regist(session_eid, employee_name)
+            NewsManager().register_event_blacklist(gid, comment)
+
+    black_list_humans = HumanTable.objects.filter(blflg=True)
+    black_list_human_ids = list(map(lambda human: str(human.humanid), black_list_humans))
+    print(black_list_human_ids)
+    template = loader.get_template('web/image_bulma.html')
+    context = {
+        'location_image': True,
+        'image_array': image_array,
+        'black_list_human_ids': black_list_human_ids,
+        # 'imgs2': imgs2,
+    }
+
+    return HttpResponse(template.render(context, request))
