@@ -12,7 +12,6 @@ from .models import *
 
 appName = 'web'
 
-imageid_dic2 = {}
 
 '''
 画像のURLを生成する
@@ -486,6 +485,7 @@ def blacklist(request):
 
     for data in human_tables:
         humanid = str(data['humanid'])
+        humanname = str(data['name'])
         imagetable_filter_human = image_tables.filter(humanid=humanid).values()
         blacklist_human_imagepath = []
 
@@ -498,7 +498,8 @@ def blacklist(request):
             {'first': create_image_url(request.get_host(), session_sid, humanid,
                                        os.path.basename(imagetable_filter_human[0]['path']))},
             {'all': blacklist_human_imagepath},
-            {'humanid': humanid}
+            {'humanid': humanid},
+            {'humanname': humanname}
         ])
         count.append('')
 
@@ -513,6 +514,7 @@ def blacklist(request):
             'first': blacklist_image_list[i][1]['first'],
             'all': blacklist_image_list[i][2]['all'],
             'humanid': blacklist_image_list[i][3]['humanid'],
+            'humanname':blacklist_image_list[i][4]['humanname']
         })
 
     template = loader.get_template('web/blacklist_bulma.html')

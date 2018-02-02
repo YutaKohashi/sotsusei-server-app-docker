@@ -19,15 +19,16 @@
                     <article class="box media image image is-square">
                         <a class="modal-button" data-target="modal-reg-{{ data.filename }}">
                             {#                            <img src="{{ data.first }}">#}
-                            <img class="lazy" data-original="{{ data.first }}"/>
+                            <img class="lazy" data-original="{{ data.first }}" style="padding-bottom: 50px;"/>
                         </a>
+                        <p class="subtitle is-5">{{ data.humanname }}</p>
                     </article>
 
                     <div id="modal-reg-{{ data.filename }}" class="modal">
                         <div class="modal-background"></div>
                         <div class="modal-card">
                             <header class="modal-card-head">
-                                <p class="modal-card-title">写真一覧</p>
+                                <p class="modal-card-title">登録名：{{ data.humanname }}</p>
                                 <button class="delete" aria-label="close"></button>
                             </header>
                             <section class="modal-card-body" style="overflow-y: scroll">
@@ -42,12 +43,12 @@
                                 </div>
                             </section>
                             <footer class="modal-card-foot">
-                                <form method='post' action='' style='margin-right: 20px'>
+                                <form method='post' action=''>
                                     {% csrf_token %}
                                     <input type="hidden" name="blacklist_humanid" value="{{ data.humanid }}">
-                                    <button class="button is-danger">ブラックリスト登録を解除する</button>
+                                    <button class="button is-info">ブラックリスト登録を解除する</button>
                                 </form>
-                                <button class="button">閉じる</button>
+                                <button class="button" style='margin-left: 20px;margin-bottom: 1em;'>閉じる</button>
                             </footer>
                         </div>
                     </div>
