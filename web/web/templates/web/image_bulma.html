@@ -13,205 +13,142 @@
 {% block contents %}
     <div style="margin-top: 20px;">
 
-        {% for data in dataList %}
-            <div>
-                <h1 class="title">
-                    {{ data.datetime }}
-                    <hr>
-                </h1>
-            </div>
-            <div class="columns is-multiline">
+        {#        {% for images in image_array %}#}
+        <div>
+            <h1 class="title">
+                {#                    {{ data.datetime }}#}
+                <hr>
+            </h1>
+        </div>
+        <div class="columns is-multiline">
 
-                {% for path in data.img_path %}
-                    <div class="column is-3-widescreen is-4-desktop is-6-tablet">
-                        <article class="box media image image is-4by3">
-                            <a class="modal-button" data-target="modal-bis{{ path }}">
-                                {#                                <img src="{{ path }}">#}
-                                <img class="lazy" data-original="{{ path }}"/>
-                            </a>
-                        </article>
+            {% for images in image_array %}
+                <div class="column is-3-widescreen is-4-desktop is-6-tablet">
+                    <article class="box media image image is-4by3">
+                        <a class="modal-button" data-target="modal-bis{{ images.0.path }}">
+                            {#                                <img src="{{ path }}">#}
+                            <img class="lazy" data-original="{{ images.0.path }}"/>
+                        </a>
+                    </article>
 
-                        {#                        <div id="modal-bis{{ path }}" class="modal">#}
-                        {#                            <div class="modal-background"></div>#}
-                        {#                            <div class="modal-content">#}
-                        {#                                <p class="image is-4by3">#}
-                        {#                                    <img src="{{ path }}">#}
-                        {#                                </p>#}
-                        {#                                <footer class="modal-card-foot">#}
-                        {##}
-                        {#                                    <a class="modal-button" data-target="modal-black{{ path }}"#}
-                        {#                                       style="margin-left: 60px;">#}
-                        {#                                        <!-- <div class="modal_img"> -->#}
-                        {#                                        <button class="button is-danger modal_img">ブラックリスト追加</button>#}
-                        {#                                        <!-- </div> -->#}
-                        {#                                    </a>#}
-                        {#                                    <p style="margin-left: 10px;">#}
-                        {#                                        <strong>2017/10/10</strong>#}
-                        {#                                    </p>#}
-                        {#                                    <a class="modal-button" data-target="modal-neko7" style="margin-left: 10px;">#}
-                        {#                                        <button class="button is-info">Previous</button>#}
-                        {#                                    </a>#}
-                        {#                                    <p style="margin-left: 10px;">#}
-                        {#                                        <strong>1/8</strong>#}
-                        {#                                    </p>#}
-                        {#                                    <a class="modal-button" data-target="modal-neko" style="margin-left: 10px;">#}
-                        {#                                        <button class="button is-success">Next</button>#}
-                        {#                                    </a>#}
-                        {#                                </footer>#}
-                        {#                            </div>#}
-                        {#                            <button class="modal-close is-large"></button>#}
-                        {#                        </div>#}
-
-                        {#                        画像拡大表示モーダル#}
-                        <div id="modal-bis{{ path }}" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-card">
-                                <header class="modal-card-head">
-                                    <p class="modal-card-title">画像詳細</p>
-                                    <button class="delete" aria-label="close"></button>
-                                </header>
-                                <section class="modal-card-body">
-                                    <p class="image is-4by3">
-                                        <img src="{{ path }}">
-                                    </p>
-                                </section>
-                                <footer class="modal-card-foot">
-                                    <a class="modal-button" data-target="modal-black{{ path }}" style="margin-right: 15px;">
-                                        <!-- <div class="modal_img"> -->
+                    {#                        画像拡大表示モーダル#}
+                    <div id="modal-bis{{ images.0.path }}" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">画像詳細</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <section class="modal-card-body">
+                                <p class="image is-4by3">
+                                    <img src="{{ images.0.path }}">
+                                </p>
+                            </section>
+                            <footer class="modal-card-foot">
+                                <a class="modal-button" data-target="modal-black{{ images.0.path }}"
+                                   style="margin-right: 15px;">
+                                    <!-- <div class="modal_img"> -->
+                                    {% if images|length > 1 %}
                                         <button class="button modal_img">ブラックリスト追加</button>
-                                        <!-- </div> -->
-                                    </a>
-                                    <button class="button">閉じる</button>
-                                </footer>
-                            </div>
+                                    {% endif %}
+                                    <!-- </div> -->
+                                </a>
+                                <button class="button is-right">閉じる</button>
+                            </footer>
                         </div>
-
-                        {#                    ブラックリスト登録モーダル#}
-                        <div id="modal-black{{ path }}" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-card">
-                                <header class="modal-card-head">
-                                    <p class="modal-card-title">ブラックリストへ登録</p>
-                                    <button class="delete" aria-label="close"></button>
-                                </header>
-                                <section class="modal-card-body">
-                                    <!-- Content ... -->
-                                    <div class="columns">
-                                        <div class="column is-6" style="position:relative">
-                                            <span style="width: 100%; text-align: center; position: absolute;">人を選択してください</span>
-                                            <p class="change" style="position: absolute;">
-                                                <img src="">
-                                            </p>
-                                        </div>
-                                        <div class="column is-6" style="height: 230px; overflow-y: scroll;">
-                                            {% for bl_img_path in data.bl_img_paths %}
-                                                <div class="columns toggle">
-                                                    <div class="column is-4">
-                                                        <article class="box media image image is-square">
-                                                            <a class="click" href="#">
-                                                                <img src="{{ bl_img_path.0.path }}"/>
-                                                            </a>
-                                                        </article>
-                                                    </div>
-                                                    <div class="column is-8">
-                                                        <span style="margin-top: 10px;">
-                                                                {% if bl_img_path.1.bl == 'True' %}
-                                                                    ブラックリスト登録済み
-                                                                {% else %}
-                                                                    ブラックリスト未登録
-                                                                {% endif %}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                            {% endfor %}
-
-                                        </div>
-                                    </div>
-                                </section>
-
-                                <footer class="modal-card-foot">
-                                    <form method='post' action=''>
-                                        {% csrf_token %}
-                                        <input type="hidden" name="bl_path" class="bl_path" value="{{ path }}">
-                                        <div class="field has-addons">
-                                            <div class="control">
-                                                <input name="register_name" class="input" type="text" maxlength="20" placeholder="登録名">
-                                            </div>
-                                            <div class="control">
-                                                <button class="button is-success">登録</button>
-                                            </div>
-                                        </div>
-                                    </form>
-{#                                    <button class="button">閉じる</button>#}
-                                </footer>
-                            </div>
-                        </div>
-
-
-{#                        <div id="modal-black{{ path }}" class="modal">#}
-{#                            <div class="modal-background"></div>#}
-{#                            <div class="modal-card">#}
-{#                                <header class="modal-card-head">#}
-{#                                    <p class="modal-card-title" align="center">ブラックリスト登録画面</p>#}
-{#                                </header>#}
-{#                                <section class="modal-card-body">#}
-{#                                    <div class="columns">#}
-{#                                        <div class="column">#}
-{#                                            <p class="change">#}
-{#                                                <img src="nonnon222.jpg">#}
-{#                                            </p>#}
-{#                                        </div>#}
-{#                                        <div class="column">#}
-{#                                            <article class="box media"#}
-{#                                                     style="height: 230px; width: 350px; overflow-y: scroll;">#}
-{#                                                <div class="media-content">#}
-{##}
-{#                                                    {% for bl_img_path in data.bl_img_paths %}#}
-{#                                                        <div class="toggle">#}
-{#                                                            <article class="media" style="height: 100px;">#}
-{#                                                            <span style="height: 20px; width: 100px;">#}
-{#                                                                <a class="click" href="#">#}
-{#                                                                    <img src="{{ bl_img_path.0.path }}"#}
-{#                                                                         style="height: 75px; width: 70px;">#}
-{#                                                                </a>#}
-{#                                                            </span>#}
-{#                                                                <span style="margin-top: 10px;">#}
-{#                                                                {% if bl_img_path.1.bl == 'True' %}#}
-{#                                                                    ブラックリスト登録済み#}
-{#                                                                {% else %}#}
-{#                                                                    ブラックリスト未登録#}
-{#                                                                {% endif %}#}
-{#                                                            </span>#}
-{#                                                            </article>#}
-{#                                                        </div>#}
-{#                                                    {% endfor %}#}
-{##}
-{#                                                </div>#}
-{#                                            </article>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <hr>#}
-{#                                    <textarea class="textarea"></textarea>#}
-{#                                </section>#}
-{##}
-{#                                <form method='post' action=''>#}
-{#                                    {% csrf_token %}#}
-{#                                    <input type="hidden" name="bl_path" class="bl_path" value="{{ path }}">#}
-{#                                    <footer class="modal-card-foot">#}
-{#                                        <button class="button is-success">登録</button>#}
-{#                                        <button class="button">取消</button>#}
-{#                                    </footer>#}
-{#                                </form>#}
-{##}
-{#                            </div>#}
-{#                        </div>#}
-
                     </div>
-                {% endfor %}
 
-            </div>
-        {% endfor %}
+                    {#                    ブラックリスト登録モーダル#}
+                    <div id="modal-black{{ images.0.path }}" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-card">
+                            <header class="modal-card-head">
+                                <p class="modal-card-title">ブラックリストへ登録</p>
+                                <button class="delete" aria-label="close"></button>
+                            </header>
+                            <section class="modal-card-body" style="overflow-y: scroll;">
+                                <!-- Content ... -->
+                                <div class="columns is-multiline">
+                                    {#                                    <div class="column is-6" style="position:relative; visibility: hidden;">#}
+                                    {#                                        <span style="width: 100%; text-align: center; position: absolute;">人を選択してください</span>#}
+                                    {#                                        <p class="change" style="position: absolute;">#}
+                                    {#                                            <img src="">#}
+                                    {#                                        </p>#}
+                                    {#                                    </div>#}
+
+                                    {#                                    <div class="columns" style="overflow-y: scroll;">#}
+                                    {% for image in images %}
+                                        {% if forloop.counter > 1 %}
+
+                                            <div class="column is-4 toggle image_list">
+{#                                                <div>#}
+{#                                                <div class="image_box image image is-square">#}
+{#                                                    <img class="thumbnail" src="{{ image.path }}"/>#}
+{#                                                    <input class="h" type="hidden" name="humanId" value="{{ image.humanid }}"/>#}
+                                                    {#                                                        <input class="disabled_checkbox" type="checkbox" checked/>#}
+{#                                                    {% if image.humanid|slugify in black_list_human_ids %}#}
+                                                        {#                                                            ブラックリスト登録済み#}
+{#                                                    {% else %}#}
+                                                        {#                                                            <input class="disabled_checkbox" type="checkbox" checked/>#}
+{#                                                    {% endif %}#}
+{#                                                </div>#}
+                                                    {% if image.humanid|slugify in black_list_human_ids %}
+                                                        <div class="image_box image image is-square">
+                                                            <img class="thumbnail" src="{{ image.path }}"/>
+                                                            <input class="h" type="hidden" name="humanId" value="{{ image.humanid }}"/>
+                                                            <input class="disabled_checkbox" type="checkbox" checked/>
+
+                                                        </div>
+                                                        <p class="subtitle is-5">ブラックリスト登録済</p>
+                                                    {% else %}
+                                                        <div class="image_box image image is-square">
+                                                            <img class="thumbnail" src="{{ image.path }}"/>
+                                                            <input class="h" type="hidden" name="humanId" value="{{ image.humanid }}"/>
+                                                            <input class="disabled_checkbox" type="checkbox" checked/>
+                                                        </div>
+                                                    {% endif %}
+{#                                                </div>#}
+                                                {#                                                    <div class="column is-8">#}
+                                                {#                                                            <span style="margin-top: 10px;">#}
+                                                {#                                                                    {% if image.bl == 'True' %}#}
+                                                {#                                                                        ブラックリスト登録済み#}
+                                                {#                                                                    {% else %}#}
+                                                {#                                                                        ブラックリスト未登録#}
+                                                {#                                                                    {% endif %}#}
+                                                {#                                                            </span>#}
+                                                {#                                                    </div>#}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {#                                    </div>#}
+                                </div>
+                            </section>
+
+                            <footer class="modal-card-foot">
+                                <form method='post' action=''>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="bl_path" class="bl_path" value="{{ path }}">
+                                    <input type="hidden" name="humanId" class="humanId" value="">
+                                    <div class="field has-addons has-addons-right">
+                                        <p class="control">
+                                            <input name="register_name" class="input" type="text" maxlength="20"
+                                                   placeholder="登録名">
+                                        </p>
+                                        <p class="control">
+                                            <button class="button is-success">登録</button>
+                                        </p>
+                                    </div>
+                                </form>
+                                {#                                    <button class="button">閉じる</button>#}
+                            </footer>
+                        </div>
+                    </div>
+
+                </div>
+            {% endfor %}
+
+        </div>
+        {#        {% endfor %}#}
 
     </div>
 {% endblock %}
@@ -225,9 +162,9 @@
                 //選択状態を解除する
                 $(".toggle").removeClass("is-active");
 
-                var mimg = $(this).parents(".modal-content").find("img").attr("src");
+                {#var mimg = $(this).parents(".modal-content").find("img").attr("src");#}
 
-                $(".change").children("img").attr("src", mimg);
+                $(".change").children("img").attr("src", "");
             });
 
             //選択状態の背景色を変更
@@ -238,10 +175,10 @@
                 $(this).parents(".toggle").toggleClass("is-active");
 
                 var img_change = $(this).children("img").attr("src");
-
+                var humnanId = $(this).children("input").attr("value");
                 // 登録ボタンのvalueを変更する
                 $(".bl_path").val(img_change);
-
+                $(".humanId").val(humnanId);
                 $(".change").children("img").attr("src", img_change);
             });
 
@@ -259,6 +196,24 @@
             // });
             // $('#Container').mixItUp();
 
+            $(function () {
+                // チェックボックスのクリックを無効化します。
+                $('.image_box .disabled_checkbox').click(function () {
+                    return false;
+                });
+
+                // 画像がクリックされた時の処理です。
+                $('img.thumbnail').click(function () {
+                    var $imageList = $('.image_list');
+
+                    // 現在の選択を解除します。
+                    $imageList.find('img.thumbnail.checked').removeClass('checked');
+                    var humnanId = $(this).next('.h').attr("value");
+                    $(".humanId").val(humnanId);
+                    // チェックを入れた状態にします。
+                    $(this).addClass('checked');
+                });
+            });
         });
     </script>
 {% endblock %}

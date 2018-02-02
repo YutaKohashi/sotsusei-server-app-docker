@@ -11,7 +11,7 @@
 {% block contents %}
     <div class="columns">
         <div class="column is-12">
-            <article class="box media" style="height: 600px; overflow-y: scroll; margin-top: 10px;">
+            <article class="box media" style="height: 500px; overflow-y: scroll; margin-top: 10px;">
                 <div class="media-content">
                     <div class="hero is-light">
                         <div class="hero-body">
@@ -20,18 +20,23 @@
                             </div>
                         </div>
                     </div>
-                    {% for news in news_ary%}
-                        <article class="media">
-                            <a href="{{news.url}}">{{news.comment}}</a>
-                        </article>
-                    {% endfor %}
+
+                    {% if news_ary|length > 0 %}
+                        {% for news in news_ary%}
+                            <article class="media">
+                                <a class="subtitle is-5" href="{% url 'web:image' %}">{{news.datetime}}　{{news.comment}}</a>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p class="subtitle is-5 home-no-news-center">新着情報がありません</p>
+                    {% endif %}
                 </div>
             </article>
         </div>
     </div>
     <div class="columns">
         <div class="column is-6">
-            <article class="box media" style="height: 600px;overflow-y: scroll;">
+            <article class="box media" style="height: 500px;overflow-y: scroll;">
                 <div class="media-content">
 
                     <div class="hero is-dark">
@@ -41,17 +46,21 @@
                             </div>
                         </div>
                     </div>
+                    {% if news_ihouchusha_ary|length > 0 %}
+                        {% for news_ihouchusha in news_ihouchusha_ary %}
+                            <article class="media">
+                                <a class="subtitle is-5" href="{% url 'web:parking' %}">{{news_ihouchusha.datetime}}　{{news_ihouchusha.comment}}</a>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p class="subtitle is-5 home-no-news-center">新着情報がありません</p>
+                    {% endif %}
 
-                    {% for news_ihouchusha in news_ihouchusha_ary %}
-                        <article class="media">
-                            <a href="{{news_ihouchusha.url}}">{{news_ihouchusha.comment}}</a>
-                        </article>
-                    {% endfor %}
                 </div>
             </article>
         </div>
         <div class="column is-6">
-            <article class="box media" style="height: 600px; overflow-y: scroll;">
+            <article class="box media" style="height: 500px; overflow-y: scroll;">
                 <div class="media-content">
 
                     <div class="hero is-dark">
@@ -61,12 +70,16 @@
                             </div>
                         </div>
                     </div>
+                    {% if news_blacklist_ary|length > 0 %}
+                        {% for news_blacklist in news_blacklist_ary %}
+                            <article class="media">
+                                <a class="subtitle is-5" href="{% url 'web:blacklist' %}">{{news_blacklist.datetime}}　{{news_blacklist.comment}}</a>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p class="subtitle is-5 home-no-news-center">新着情報がありません</p>
+                    {% endif %}
 
-                    {% for news_blacklist in news_blacklist_ary %}
-                        <article class="media">
-                            <a href="{{news_blacklist.url}}">{{news_blacklist.comment}}</a>
-                        </article>
-                    {% endfor %}
                 </div>
             </article>
         </div>
