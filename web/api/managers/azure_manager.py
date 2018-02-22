@@ -1,8 +1,8 @@
-import requests
-import json
 from .image_manager import *
 from .http import *
-import time
+from ..keys import AZURE_FACE_API_KEY
+
+
 
 
 # 顔ひとつに対してImageInfoが対応する
@@ -20,15 +20,14 @@ class FaceInfo:
         self.width = width
         self.height = height
 
-
 class AzureManager:
     # e4a3ffeb1d4749afa3806c5982f8f94f (有料版 マツイくんより)
     # 9cd066b7026b44da9e2c58d845741d2e (有料版 マツイくんより)
     # 共通APIkey（無料版）
     # API_KEY = 'afd2b51a50a1499695d8113c8fb21c9e'
 
-    API_KEY = 'e4a3ffeb1d4749afa3806c5982f8f94f'
-
+    # API_KEY = 'e4a3ffeb1d4749afa3806c5982f8f94f'
+    API_KEY = AZURE_FACE_API_KEY
     BASE_URI = "https://eastasia.api.cognitive.microsoft.com/face/v1.0/"
     # face detect url
     FACE_DETECT_URI = BASE_URI + "detect"
@@ -49,7 +48,7 @@ class AzureManager:
             'returnFaceLandmarks': 'false',
             'returnFaceAttributes': 'age,gender'
         }
-
+        print("\nAPI_KEY : " + str(self.API_KEY))
         print("\n→→→→→→→→→→→→ start http connection  - detect face  →→→→→→→→→→→→")
         response = http_post_image(self.FACE_DETECT_URI, headers=headers, params=params, image=image_file)
         print(response.text)
